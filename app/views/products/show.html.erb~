@@ -1,0 +1,28 @@
+<h1>Product: <%= @product.name %></h1>
+<h2>Farm: <%= @farm.name %></h2>
+
+<% if @product.feature %>
+  <h3>Featured!</h3>
+<% end %>
+<p>Category: <%= @product.category %></p>
+<p>Description: <%= @product.description %></p>
+<p>Notes This Week: <%= @product.notes %></p>
+
+<table>
+  <tr>
+    <th>Unit</th>
+    <th>Price</th>
+    <th>Available Quantity</th>
+  </tr>
+  <% @farm.products.each do |p| %>
+    <% if p.name == @product.name %>
+      <td><%= p.unit%></td>
+      <td><%= p.price %></td>
+      <td><%= p.quantity %></td>
+    <% end %>
+  <% end %>
+  <tr>
+    <td></td>
+  </tr>
+
+</table>

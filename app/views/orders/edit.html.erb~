@@ -1,0 +1,27 @@
+<h1>Edit Order: <%= @order.name %></h1>
+<p><%= link_to "Back", edit_buyer_path(current_user) %></p>
+<% if !order_on? %>
+<p><%= link_to "Edit this Order", buyer_order_login_order_path(@buyer, @order) %></p>
+<% end %>
+
+<% if order_on? %>
+<p><%= link_to "Stop Editing Order", buyer_order_logout_order_path(@buyer, @order) %></p>
+<% end %>
+
+<p><%= link_to "Print Invoice", print_buyer_order_path(@buyer, @order) %></p>
+
+<h2>Current Products</h2>
+<ul>
+  <% @order.products.each do |p| %>
+    <li><%= p.name %> from <%= Farm.find(p.farm_id).name %>
+        <% if order_on? %>
+	<%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></li>
+        <% end %>
+  <% end %>
+</ul>
+
+<% if order_on? %>
+<h2>Add Products</h2>
+<p><%= link_to "See All Farms", farms_path %></p>
+<% end %>
+

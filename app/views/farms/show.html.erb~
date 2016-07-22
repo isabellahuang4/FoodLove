@@ -1,0 +1,14 @@
+<h1>Farm: <%= @farm.name %></h1>
+<% if order_on? %>
+  <p><%= link_to "Return to Order Page", edit_buyer_order_path(current_user,current_order) %></p>
+<% end %>
+
+<h2>Products</h2>
+<ul>
+<% @farm.products.each do |p| %>
+  <li><%= p.name %>
+      <% if order_on? %>
+        <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,p)%>
+      <% end %></li>
+<% end %>
+</ul>

@@ -1,0 +1,8 @@
+<h1>Add A Distributor</h1>
+<ul>
+  <% @dists.each do |d| %>
+    <% if !@buyer.distributors.exists?(d.id) %>
+      <li><%= d.name %> <%= link_to "Add", new_dist_buyer_path(@buyer,d), method: :post %></li>
+    <% end %>
+  <% end %>
+</ul>

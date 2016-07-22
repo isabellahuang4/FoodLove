@@ -1,0 +1,4 @@
+class AddBuyerIdToUserUser < ActiveRecord::Migration
+  def change
+  end
+end

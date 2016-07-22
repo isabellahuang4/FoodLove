@@ -1,0 +1,12 @@
+<h1><%= @distributor.name %></h1>
+<p><%= link_to "Print", printall_distributor_path(@distributor) %></p>
+
+<h2>My Farms</h2>
+
+<ul>
+  <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
+    <li><% f.name %></li>
+  <% end %>
+</ul>
+
+<p><%= link_to "Add A Farm", add_farm_distributor_path(@distributor), method: :get %></p>

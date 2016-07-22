@@ -1,0 +1,67 @@
+<h1><%= @buyer.name %> </h1>
+<p><%= link_to "Home", root_url %>
+<h2>My Orders</h2>
+  <% if order_on? %>
+    <p>You are currently editing an order. 
+       <%= link_to "Keep Ordering", edit_buyer_order_path(@buyer, current_order) %></p>
+  <% else %>
+  <ul>
+    <% @buyer.orders.each do |o| %>
+      <li><%= link_to "#{o.name}", edit_buyer_order_path(@buyer, o) %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+  <h3>Create a New Order</h3>
+  <%= form_for :order, :url => buyer_orders_path(@buyer), method: :post do |form|%>
+    <p>
+      <%= form.label :name %><br>
+      <%= form.text_field :name %>
+    </p>
+    <%= form.hidden_field :buyer_id, value: @buyer.id %>
+    <p><%= form.submit %></p>
+  <% end %>
+
+<h2>Featured Products</h2>
+  <ul>
+    <% @farms.each do |f| %>
+      <% f.products.each do |p| %>
+        <% if p.feature %>
+	  <li><%= p.name %> from <%= f.name %>
+	      <% if order_on? %>
+	        <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,p) %>
+	      <% end %></li>
+	<% end %>
+      <% end %>
+    <% end %>
+  </ul>
+
+<h2>Search</h2>
+<%= form_tag(search_path, :method => "get") do %>
+  <%= text_field_tag(:name_or_cat) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+
+<h2>My Farms</h2>
+<ul>
+  <% @myfarms.each do |farm| %>
+    <li><%= link_to "#{farm.name}", farm_path(farm) %>
+        <%= link_to "Remove", remove_farm_buyer_path(@buyer,farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
+  <% end %>
+</ul>
+
+<p><%= link_to "Add A Farm", add_farm_buyer_path(@buyer), method: :get %></p>
+
+<h2>My Distributors</h2>
+<ul>
+  <% @mydists.each do |dist| %>
+    <li><%= link_to "#{dist.name}", distributor_path(dist) %>
+        <%= link_to "Remove", remove_dist_buyer_path(@buyer,dist), method: :delete, data: {confirm: "Are you sure?"} %></li>
+  <% end %>
+</ul>
+
+<p><%= link_to "Add A Distributor", add_dist_buyer_path(@buyer), method: :get %></p>
+
+<br>
+<p><%= link_to "Delete Account", user_path(@buyer), method: :delete, data: {confirm: "Are you sure?"} %></p>

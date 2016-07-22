@@ -1,0 +1,8 @@
+<h1>Add A Farm</h1>
+<ul>
+  <% @farms.each do |f| %>
+    <% if !@dist.farms.exists?(f.id) %>
+      <li><%= f.name %> <%= link_to "Add", new_farm_distributor_path(@dist, f), method: :post %></li>
+    <% end %>
+  <% end %>
+</ul>

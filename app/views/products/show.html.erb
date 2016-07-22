@@ -1,0 +1,34 @@
+<h1>Product: <%= @product.name %></h1>
+<h2>Farm: <%= @farm.name %></h2>
+
+<% if @product.feature %>
+  <h3>Featured!</h3>
+<% end %>
+<p>Category: <%= @product.category %></p>
+<p>Description: <%= @product.description %></p>
+<p>Notes This Week: <%= @product.notes %></p>
+
+<table>
+  <tr>
+    <th>Unit</th>
+    <th>Price</th>
+    <th>Available Quantity</th>
+    <% if order_on? %>
+      <th>Add to Order</th>
+    <% end %>
+  </tr>
+
+  <% @farm.products.each do |p| %>
+    <% if p.name == @product.name %>
+    <tr>
+      <td><%= p.unit%></td>
+      <td><%= p.price %></td>
+      <td><%= p.quantity %></td>
+      <% if order_on? %>
+        <td><%= link_to "Add", add_product_buyer_order_path(current_user, current_order, p) %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  <% end %>
+
+</table>

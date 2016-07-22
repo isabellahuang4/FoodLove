@@ -1,0 +1,10 @@
+<h1>Welcome!</h1>
+<% if logged_in? %>
+  <p><%= link_to "See Profile", edit_user_path(current_user) %>
+  <p><%= link_to "Log Out", logout_path, method: :delete %> 
+<% else %>
+  <p><%= link_to "Log In", login_path %></p>
+  <p><%= link_to "Create an Account", new_user_path %></p>
+<% end %>
+
+

@@ -1,0 +1,57 @@
+class Order < ActiveRecord::Base
+  belongs_to :buyer
+  has_and_belongs_to_many :products
+  
+  def print
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @products = @order.products
+
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    i=0
+
+    #header
+    sheet.row(i).push @buyer.name, @order.name
+    i+=1
+
+    #print products by farm
+    @currfarm = ''
+    @products.sort_by{|p| [Farm.find(p.farm_id), p.name, p.price]}.each do |pro|
+      #check if new farm or first farm, add farm heading
+      if @currfarm != Farm.find(pro.farm_id)
+        i+=1 #add space
+        @currfarm = Farm.find(pro.farm_id)
+        sheet.row(i).push @currfarm.name
+        sheet.row(i+1).push 'Item', 'Unit', 'Price'
+        i+=2
+      end
+      sheet.row(i).push pro.name, pro.unit, pro.price
+      i+=1
+    end
+
+    book.write Rails.root.join('print', 'orders', "#{@buyer.name}_#{Date.current}.xls")
+  end
+
+  def print_farm(products)
+    @buyer = Buyer.find(params[:buyer_id])
+    @products = products
+    @farm = Farm.find(products[0].farm_id)
+
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    i=0
+
+    #header
+    sheet.row(i).push @buyer.name, 'order to', @farm.name
+    i+=2
+    
+    @products.sort_by{|p| [p.category, p.name]}.each do |pro|
+      sheet.row(i).push pro.name, pro.unit, pro.price
+      i+=1
+    end
+
+    book.write Rails.root.join('print', 'orders', "#{@farm.name}_#{@buyer.name}_#{Date.current}.xls")
+  end
+
+end

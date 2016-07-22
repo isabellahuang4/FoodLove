@@ -1,0 +1,108 @@
+class OrdersController < ApplicationController
+
+  def show
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+  end
+
+  def new
+    @order=Order.new
+  end
+
+  def create
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = @buyer.orders.create({:name => params[:order][:name],
+    	                           :buyer_id => params[:order][:buyer_id]})
+    redirect_to edit_buyer_path(@buyer)
+  end
+
+  def edit
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @products = @order.products
+  end
+
+  def add_product
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @product = Product.find(params[:format])
+    @order.products.push(@product)
+    @farm = Farm.find(@product.farm_id)
+    redirect_to @farm
+  end
+
+  def remove_product
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @product = Product.find(params[:format])
+    @order.products.delete(@product)
+
+    redirect_to edit_buyer_order_path(@buyer,@order)
+  end
+
+  def place
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @products = @order.products
+
+    #print order spreadsheet
+    print
+    #send entire order sheet to self
+    UserMailer.order_self(@order)
+    
+    #print sheet for each farm and send to each farm
+    @lastfid = -1
+    @products.sort_by{|p| [p.farm_id, p.category, p.name]}.each do |pro|
+      if @lastfid != pro.farm_id
+        #start a new sheet, print last sheet if id!=-1
+	if @lastfid != -1
+	  #print
+	end
+	@lastfid = p.farm_id
+	book = Spreadsheet::Workbook.new
+	sheet = book.create_worksheet
+      else
+        #add to this sheet
+      end
+      #print last sheet
+    end
+
+    #print sheet for each distributor and send
+    
+  end
+
+  def print
+    @buyer = Buyer.find(params[:buyer_id])
+    @order = Order.find(params[:id])
+    @products = @order.products
+    
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    i=0
+
+    #header
+    sheet.row(i).push @buyer.name, @order.name
+    i+=1
+
+    #print products by farm
+    @currfarm = ''
+    @products.sort_by{|p| [Farm.find(p.farm_id), p.name, p.price]}.each do |pro|
+      #check if new farm or first farm, add farm heading
+      if @currfarm != Farm.find(pro.farm_id)
+        i+=1 #add space
+        @currfarm = Farm.find(pro.farm_id)
+        sheet.row(i).push @currfarm.name
+	sheet.row(i+1).push 'Item', 'Unit', 'Price'
+	i+=2
+      end
+      sheet.row(i).push pro.name, pro.unit, pro.price
+      i+=1
+    end
+    
+    book.write Rails.root.join('print', "#{@buyer.name}_#{Date.current}.xls")
+
+    redirect_to edit_buyer_order_path(@buyer,@order)
+    
+  end
+  
+end

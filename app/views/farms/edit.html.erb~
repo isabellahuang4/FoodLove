@@ -1,0 +1,74 @@
+<h1>
+  <strong>Farm: </strong><%= @farm.name %>
+</h1>
+
+<p><%= link_to "Home", root_url %></p>
+
+<h2>Update your product listings</h2>
+<p>
+<%= form_for @farm  do |f| %>
+  <%= f.file_field :file %>
+  <%= f.submit "Upload" %>
+<% end %>
+</p>
+<p><%= link_to "View and Edit Products", farm_products_path(@farm) %></p>
+
+<h2><strong>Products</strong></h2>
+<table id ="ProductTable">
+<thead>
+  <tr>
+    <th>Featured</th>
+    <th>Category</th>
+    <th>Item</th>
+    <th>Unit</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Description</th>
+    <th>Notes</th>
+    <th>Available</th>
+    <th>Update</th>
+    <th>Delete</th>
+  </tr>
+</thead>
+<tbody>
+<%= form_for :products, :url => farm_update_all_path(@farm), html: {method: 'put'} do |farm_form| %>
+  <% @farm.products.sort_by{|p| [p.available ? 0:1, 
+                                 p.category.downcase,
+                                 p.name.downcase, 
+                                 p.price]}.each do |pro| %>
+    <%= farm_form.fields_for "product[]", pro do |form| %>
+      <tr>
+	<td><%= form.check_box :feature %></td>
+	<td><%= form.text_field :category %></td>
+        <td><%= form.text_field :name %></td>
+        <td><%= form.text_field :unit %></td>
+        <td>$<%= form.text_field :price, data:{role: 'money', a_sep:',', a_dec: '.'} %></td>
+	<td><%= form.number_field :quantity %></td>
+	<td><%= form.text_area :description %></td>
+        <td><%= form.text_area :notes %></td>
+        <td><%= form.check_box :available %></td>
+        <td><%= form.submit %></td>
+        <td><%= button_to "Delete", farm_product_path(@farm, pro), method: :delete, data: {confirm: "Are you sure?"} %></td>
+      </tr>
+    <% end %>
+ <% end %>
+</tbody>
+</table>
+<br>
+<%= farm_form.submit farm_update_all_path(@farm) %>
+<% end %>
+
+<p><strong>Add a product</strong></p>
+<%= form_for([@farm, @farm.products.build]) do |f| %>
+  <p><%= f.label :name %><%= f.text_field :name %></p>
+  <p><%= f.label :unit %><%= f.text_field :unit %></p>
+  <p><%= f.label :price %><%= f.text_field :price %></p>
+  <p><%= f.label :quantity %><%= f.number_field :quantity %></p>
+  <p><%= f.label :category %><%= f.text_field :category %></p>
+  <p><%= f.label :description %><%= f.text_area :description %></p>
+  <p><%= f.label :notes %><%= f.text_area :notes %></p>
+  <p><%= f.label :available %><%= f.check_box :available %></p>
+  <p><%= f.label :feature %><%= f.check_box :feature %></p>
+  <p><%= f.submit %></p>
+
+<% end %>

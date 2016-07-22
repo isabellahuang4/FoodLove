@@ -1,0 +1,6 @@
+class CreateUsersAndUsers < ActiveRecord::Migration
+  def change
+    create_table :users_and_users do |t|
+    end
+  end
+end

@@ -1,0 +1,4 @@
+class AddNameToOrders < ActiveRecord::Migration
+  def change
+  end
+end
