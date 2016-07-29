@@ -6,12 +6,16 @@ Rails.application.routes.draw do
 
   get "/search", to: 'products#search'
 
+  get "/search_farms", to: 'farms#search'
+
   resources :users
   resources :farms do
     resources :products
       match 'products/all/edit' => 'products#edit_all', :as => :edit_all, :via => :get
       match 'products/all' => 'products#update_all', :as => :update_all, :via => :put
-    get 'upload', :on => :member
+    patch 'upload', :on => :member
+    post 'sendnotif', :on => :member
+    delete 'dismiss_order', :on => :member
   end
   resources :distributors do
     get 'printall', :on => :member

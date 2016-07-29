@@ -1,8 +1,10 @@
+<h1>Farms Near Me</h1>
+
 <h1>Add A Farm</h1>
 <ul>
-  <% @farms.each do |f| %>
+  <% @farms.sort_by{|f| f.distance_to(@buyer)}each do |f| %>
     <% if !@buyer.farms.exists?(f.id) %>
-      <li><%= f.name %> <%+ link_to "Add", new_farm_buyer_path(@buyer,f), method: :post %></li>
+      <li><%= f.name %> <%= link_to "Add", new_farm_buyer_path(@buyer,f), method: :post %></li>
     <% end %>
   <% end %>
 </ul>

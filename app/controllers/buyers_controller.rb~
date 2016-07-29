@@ -14,8 +14,13 @@ class BuyersController < ApplicationController
    
   def edit
     @buyer=Buyer.find(params[:id])
-    @farms=Farm.all
-    @myfarms = @buyer.farms
+    @farms=Farm.all   #sort_by{|f| f.distance_to(@buyer) }
+    @nearfarms = Farm.near(@buyer,50)
+
+    @map = GMap.new("map")
+    @map.center_zoom_init(@buyer,50)
+
+    @myfarms = @buyer.farms  #sort_by{|f| f.distance_to(@buyer) }
     @dists = Distributor.all
     @mydists = @buyer.distributors
   end
@@ -31,11 +36,10 @@ class BuyersController < ApplicationController
 
   def update
     @buyer=Buyer.find(params[:id])
-    if @buyer.update()
-      redirect_to @buyer
-    else
-      render 'edit'
-    end
+    @buyer.update_attribute(:name, params[:buyer][:name])
+    @buyer.update_attribute(:email, params[:buyer][:email])
+    @buyer.update_attribute(:location, params[:buyer][:location])
+    redirect_to edit_buyer_path(@buyer)
   end
 
   def destroy
@@ -55,6 +59,12 @@ class BuyersController < ApplicationController
     redirect_to edit_buyer_path(@buyer)
   end
 
+  def remove_farm
+    @buyer = Buyer.find(params[:id])
+    @buyer.farms.delete(Farm.find(params[:format]))
+    redirect_to edit_buyer_path(@buyer)
+  end
+
   def add_dist
     @buyer = Buyer.find(params[:id])
     @dists = Distributor.all
@@ -63,6 +73,12 @@ class BuyersController < ApplicationController
   def new_dist
     @buyer = Buyer.find(params[:id])
     @buyer.distributors.push(Distributor.find(params[:format]))
+    redirect_to edit_buyer_path(@buyer)
+  end
+
+  def remove_dist
+    @buyer = Buyer.find(params[:id])
+    @buyer.distributors.delete(Distributor.find(params[:format]))
     redirect_to edit_buyer_path(@buyer)
   end
 

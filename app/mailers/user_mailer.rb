@@ -24,4 +24,21 @@ class UserMailer < ApplicationMailer
     mail(to: @farm.email, subject: "Order from #{@buyer.name}")
   end
 
+  def order_dist(dist, order)
+    @dist = dist
+    @order = order
+    @buyer = Buyer.find(@order.buyer_id)
+    attachments["#{@buyer.name}_order_#{Date.current}.xls"] =
+      File.read(Rails.root.join('print', 'orders', "#{@dist.name}_#{@buyer.name}_#{Date.current}.xls"))
+    mail(to: @dist.email, subject: "Order from #{@buyer.name}")
+  end
+
+
+  def notif(buyer, note, farm)
+    @buyer = buyer
+    @text = note
+    @farm = farm
+    mail(to: @buyer.email, subject: "Notification from #{@farm.name}")
+  end
+
 end

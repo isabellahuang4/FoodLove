@@ -1,0 +1,12 @@
+<h1>Search Results</h1>
+<p><%= link_to "Home", root_url %></p>
+
+<% if @farms==[] %>
+  <p>No products matched your search criteria.</p>
+<% else %>
+<ul>
+  <% @farms.each do |f| %>
+  <li><%= link_to "#{f.name}", farm_path(f) %></li>
+  <% end %>
+</ul>
+<% end %>

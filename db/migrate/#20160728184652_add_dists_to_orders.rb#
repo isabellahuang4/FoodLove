@@ -1,0 +1,8 @@
+class AddDistsToOrders < ActiveRecord::Migration
+  def change
+    add_column :orders_users, id: false do |t|
+      t.belongs_to :distributor, index: true
+      t.belongs_to :order, index: true
+    end
+  end
+end

@@ -1,0 +1,2 @@
+<% if logged_in && current_user.type == "Farm" %>
+<% end %>

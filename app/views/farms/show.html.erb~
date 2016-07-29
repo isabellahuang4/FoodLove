@@ -6,7 +6,7 @@
 <h2>Products</h2>
 <ul>
 <% @farm.products.each do |p| %>
-  <li><%= p.name %>
+  <li><%= link_to "#{p.name}", farm_product_path(@farm,p) %>
       <% if order_on? %>
         <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,p)%>
       <% end %></li>

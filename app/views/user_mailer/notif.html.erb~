@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Notification From #{@farm.name}</h1>
+  <p>Please check the attached spreadsheet invoice to double check your order is correct.</p>
+</body>
+</html>
+
+

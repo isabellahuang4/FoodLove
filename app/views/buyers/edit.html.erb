@@ -36,11 +36,23 @@
     <% end %>
   </ul>
 
-<h2>Search</h2>
+<h2>Search Products</h2>
 <%= form_tag(search_path, :method => "get") do %>
   <%= text_field_tag(:name_or_cat) %>
   <%= submit_tag("Search") %>
 <% end %>
+
+<h2>Farms Near Me</h2>
+<% if @nearfarms != nil %>
+<ul>
+<% @nearfarms.each do |farm| %>
+  <li><%= link_to "#{farm.name}", farm_path(farm) %>  <%= farm.distance_to(@buyer).round(2) %> miles</li>
+<% end %>
+</ul>
+<% else %>
+<p>There are no farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
+<% end %>
+
 
 
 <h2>My Farms</h2>
@@ -48,10 +60,24 @@
   <% @myfarms.each do |farm| %>
     <li><%= link_to "#{farm.name}", farm_path(farm) %>
         <%= link_to "Remove", remove_farm_buyer_path(@buyer,farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
+      <% if farm.notifications != nil %>
+        <ul>
+	  <% farm.notifications.each do |n| %>
+	  <% if DateTime.now.days_ago(7) < n.created_at %>
+	     <li><%= n.notif %></li>
+	  <% end %>
+	  <% end %>
+	</ul>
+      <% end %>
   <% end %>
 </ul>
 
 <p><%= link_to "Add A Farm", add_farm_buyer_path(@buyer), method: :get %></p>
+<h4>Search Farms</h4>
+<%= form_tag(search_farms_path, :method => "get") do %>
+  <%= text_field_tag(:name) %>
+  <%= submit_tag("Search") %>  
+<% end %>
 
 <h2>My Distributors</h2>
 <ul>
@@ -64,4 +90,13 @@
 <p><%= link_to "Add A Distributor", add_dist_buyer_path(@buyer), method: :get %></p>
 
 <br>
+<h3>Edit Account</h3>
+<%= form_for @buyer do |f| %>
+  <p><%= f.label :name %><%= f.text_field :name %></p>
+  <p><%= f.label :email %><%= f.text_field :email %></p>
+  <p><%= f.label :location %><%= f.text_field :location %></p>
+  <p><%= f.submit %></p>
+<% end %>
+
 <p><%= link_to "Delete Account", user_path(@buyer), method: :delete, data: {confirm: "Are you sure?"} %></p>
+

@@ -78,7 +78,7 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    logout
+    log_out
     @user = User.find(params[:id])
     @user.destroy
 

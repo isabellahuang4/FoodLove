@@ -15,8 +15,9 @@ class DistributorsController < ApplicationController
   def edit
     @distributor=Distributor.find(params[:id])
     @farms=@distributor.farms
+    @orders=@distributor.orders
   end
-  
+    
   def create
     @distributor=Distributor.new(params[:user])
     if @distributor.save
@@ -39,13 +40,12 @@ class DistributorsController < ApplicationController
     @dist=Distributor.find(params[:id])
     @farms=@dist.farms
 
-    money_f = Spreadsheet::Format.new :number_format => '$#,##0.00_);($#,##0.00)'
-
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet
     i=0
     
     #formating
+    money_f = Spreadsheet::Format.new :number_format => '$#,##0.00_);($#,##0.00)'
 
     #header
     sheet.row(i).push @dist.name
@@ -69,6 +69,7 @@ class DistributorsController < ApplicationController
     sheet.column(2).default_format = money_f
     
     book.write Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
+    send_file Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
     
     redirect_to distributor_edit_path(@dist)
   end

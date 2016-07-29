@@ -1,7 +1,6 @@
 class ProductsController < ApplicationController
   def index
     @farm = Farm.find(params[:farm_id])
-    @products = @farm.products
   end
 
   def search
@@ -24,15 +23,12 @@ class ProductsController < ApplicationController
 
   def update
     @farm = Farm.find(params[:farm_id])
-    if params[:products] != nil
-      Product.update(params[:products][:product].keys, params[:products][:product].values)
-    else
-      @product = @farm.products.update(params[:id], product_params)
-    end
-    redirect_to edit_farm_path(@farm)
+    @product = @farm.products.update(params[:id], product_params)
+    redirect_to farm_products_path(@farm)
   end  
 
   def update_all
+    puts 'update_all'
     @farm = Farm.find(params[:farm_id])
     params['products'].keys.each do |id|
       @product=@farm.Product.find(id.to_i)
@@ -45,7 +41,7 @@ class ProductsController < ApplicationController
     @farm = Farm.find(params[:farm_id])
     @product = @farm.products.find(params[:id])
     @product.destroy
-    redirect_to farm_product_path(@farm)
+    redirect_to farm_products_path(@farm)
   end
 
   def show

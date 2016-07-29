@@ -14,8 +14,10 @@ class BuyersController < ApplicationController
    
   def edit
     @buyer=Buyer.find(params[:id])
-    @farms=Farm.all
-    @myfarms = @buyer.farms
+    @farms=Farm.all   #sort_by{|f| f.distance_to(@buyer) }
+    @nearfarms = Farm.near(@buyer,50)
+
+    @myfarms = @buyer.farms  #sort_by{|f| f.distance_to(@buyer) }
     @dists = Distributor.all
     @mydists = @buyer.distributors
   end
@@ -31,11 +33,10 @@ class BuyersController < ApplicationController
 
   def update
     @buyer=Buyer.find(params[:id])
-    if @buyer.update()
-      redirect_to @buyer
-    else
-      render 'edit'
-    end
+    @buyer.update_attribute(:name, params[:buyer][:name])
+    @buyer.update_attribute(:email, params[:buyer][:email])
+    @buyer.update_attribute(:location, params[:buyer][:location])
+    redirect_to edit_buyer_path(@buyer)
   end
 
   def destroy

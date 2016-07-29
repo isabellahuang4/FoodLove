@@ -2,7 +2,7 @@
 <p><%= link_to "Home", root_url %></p>
 <% if @products==[] %>
   <p>No products matched your search criteria.</p>
-<% end %>
+<% else %>
 <ul>
 <% @products.each do |p| %>
   <li><%= link_to "#{p.name}", farm_product_path(Farm.find(p.farm_id),p) %>
@@ -11,6 +11,7 @@
       <% end %></li>
 <% end %>
 </ul>
+<% end %>
 <br>
 <h2>Search Again</h2>
 <%= form_tag(search_path, :method => "get") do %>

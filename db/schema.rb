@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718175004) do
+ActiveRecord::Schema.define(version: 20160729142430) do
 
   create_table "buyers", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 20160718175004) do
   create_table "farms", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "file"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.text     "notif"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "farm_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -41,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160718175004) do
     t.datetime "updated_at", null: false
     t.integer  "buyer_id"
     t.string   "name"
+    t.datetime "placed"
   end
 
   add_index "orders", ["buyer_id"], name: "index_orders_on_buyer_id"
@@ -53,6 +62,16 @@ ActiveRecord::Schema.define(version: 20160718175004) do
   add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"
   add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id"
 
+  create_table "orders_users", id: false, force: :cascade do |t|
+    t.integer "farm_id"
+    t.integer "order_id"
+    t.integer "distributor_id"
+  end
+
+  add_index "orders_users", ["distributor_id"], name: "index_distributors_orders_on_distributor_id"
+  add_index "orders_users", ["farm_id"], name: "index_orders_users_on_farm_id"
+  add_index "orders_users", ["order_id"], name: "index_orders_users_on_order_id"
+
   create_table "products", force: :cascade do |t|
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
@@ -61,7 +80,6 @@ ActiveRecord::Schema.define(version: 20160718175004) do
     t.decimal  "price",       precision: 5, scale: 2
     t.integer  "quantity"
     t.string   "category"
-    t.boolean  "available"
     t.boolean  "feature"
     t.text     "description"
     t.text     "notes"
@@ -75,8 +93,10 @@ ActiveRecord::Schema.define(version: 20160718175004) do
     t.datetime "updated_at",      null: false
     t.string   "password_digest"
     t.string   "type"
-    t.integer  "location"
+    t.text     "location"
     t.string   "remember_digest"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "users_users", force: :cascade do |t|

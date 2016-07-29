@@ -1,0 +1,6 @@
+class AddDistsToOrders < ActiveRecord::Migration
+  def change
+    add_index "orders_users", ["distributor_id"], name: "index_distributors_orders_on_distributor_id"
+    add_column :orders_users, :distributor_id, :integer
+  end
+end
