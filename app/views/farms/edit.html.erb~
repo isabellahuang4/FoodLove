@@ -1,9 +1,10 @@
-<h1>
-  <strong>Farm: </strong><%= @farm.name %>
-</h1>
+<h1><%= @farm.name %></h1>
 
 <p><%= link_to "Home", root_url %></p>
 
+<div class="container">
+<div class="row">
+<div class="col-xs-6">
 <h2>Your Orders</h2>
 <ul>
   <% @orders.each do |o| %>
@@ -17,13 +18,19 @@
   <% end %>
   <% end %>
 </ul>
+</div>
 
+<div class="col-xs-6">
 <h2>Send Notifications</h2>
 <%= form_for :notification, :url => sendnotif_farm_path(@farm), :html => {:method => :post} do |f| %>
   <%= f.text_area :notif %>
   <%= f.submit "Send"%>
 <% end %> 
+</div>
+</div>
 
+<div class="row">
+<div class="col-xs-6"> 
 <h2>Update your product listings</h2>
 <p>
 <%= form_for @farm, :url => upload_farm_path(@farm), method: :patch do |f| %>
@@ -32,8 +39,11 @@
 <% end %>
 </p>
 <p><%= link_to "View and Edit Products", farm_products_path(@farm) %></p>
+</div>
+</div>
 
-<p><strong>Add a product</strong></p>
+<p id="add_but"><strong>Add a product</strong></p>
+<div id="add">
 <%= form_for([@farm, @farm.products.build]) do |f| %>
   <p><%= f.label :name %><%= f.text_field :name %></p>
   <p><%= f.label :unit %><%= f.text_field :unit %></p>
@@ -42,16 +52,38 @@
   <p><%= f.label :category %><%= f.text_field :category %></p>
   <p><%= f.label :description %><%= f.text_area :description %></p>
   <p><%= f.label :notes %><%= f.text_area :notes %></p>
-  <p><%= f.label :available %><%= f.check_box :available %></p>
   <p><%= f.label :feature %><%= f.check_box :feature %></p>
   <p><%= f.submit %></p>
-
 <% end %>
+</div>
 
-<h3>Edit Account</h3>
+
+<h2 id="edit_but">Edit Account</h2>
+<div id="edit" >
 <%= form_for @user do |f| %>
   <p><%= f.label :name %> <%= f.text_field :name %></p>
   <p><%= f.label :email %><%= f.text_field :email %></p>
   <p><%= f.label :location %><%= f.text_field :location %></p>
   <p><%= f.submit %></p>
 <% end %>
+</div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    $(add).hide();
+
+    $(add_but).click(function(){
+        $(add).toggle();
+    });
+
+    $(edit).hide();
+
+    $(edit_but).click(function(){
+        $(edit).toggle();
+    });
+
+
+});
+</script>
