@@ -1,7 +1,16 @@
 <div class="center jumbotron">
+  <% if flash[:notice] %>
+    <div class="col-xs-12"><%= flash[:notice] %></div>
+  <% end %>
+
+
   <h1>Welcome!</h1>
   
   <% if !logged_in? %>
-  <%= link_to "Sign up now!", new_user_path, class: "btn btn-lg btn-primary" %>
+  <br>
+  <%= link_to "Learn About FoodLove", about_path, class: "btn btn-lg btn-danger"  %><br><br>
+
+  <%= link_to "Sign up now!", new_user_path, class: "btn btn-lg btn-danger" %>
+
   <% end %>
 </div>

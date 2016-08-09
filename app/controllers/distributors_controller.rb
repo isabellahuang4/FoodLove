@@ -71,7 +71,6 @@ class DistributorsController < ApplicationController
     book.write Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
     send_file Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
     
-    redirect_to distributor_edit_path(@dist)
   end
 
   def add_farm

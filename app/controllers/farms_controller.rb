@@ -6,6 +6,15 @@ class FarmsController < ApplicationController
 
   def show
     @farm=Farm.find(params[:id])
+    @products = @farm.products
+    @categories = Array.new
+    @cat = nil
+    @products.sort_by{|p| p.category}.each do |pro|
+      if pro.category != @cat
+        @categories.push pro.category.tr(" ", "_")
+        @cat = pro.category
+      end
+    end    
   end
 
   def new
@@ -115,6 +124,40 @@ class FarmsController < ApplicationController
     filtering_params(params).each do |key, value|
       @farms = @farms.public_send(key, value) if value.present?
     end
+    @farms = @farms.sort_by{|f| f.distance_to(current_user) }
+  end
+
+  def sample
+    send_file Rails.root.join('print', "foodlove_upload_template.xls")
+  end
+
+  def print
+    @farm=Farm.find(params[:id])   
+
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    
+    header_f = Spreadsheet::Format.new :weight => :bold
+    
+    i=0
+    sheet.row(i).push 'Category', 'Item', 'Unit', 'Price', 'Quantity', 'Description', 'Notes'
+    sheet.row(i).default_format = header_f
+    i+=1    
+
+    @farm.products.sort_by{|p| [p.category, p.name.downcase, p.price]}.each do |product|
+      if product.available?
+      	 if product.name != sheet.row(i-1)[0] && sheet.row(i-1)[0] != "Product"
+	   i+=1
+	   end
+        sheet.row(i).push product.category, product.name, product.unit, product.price, 
+			  product.quantity, product.description, product.notes
+	i+=1
+      end
+    end
+    
+    book.write Rails.root.join('print',"#{@farm.name}_#{Date.current}.xls")
+    send_file Rails.root.join('print', "#{@farm.name}_#{Date.current}.xls")    
+    
   end
 
   def dismiss_order

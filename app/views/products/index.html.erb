@@ -1,6 +1,60 @@
 <h1>Products</h1>
 <p><%= link_to "Back", edit_farm_path(@farm) %>
-<table>
+<p><%= link_to "Add a Product", new_farm_product_path(@farm) %></p>
+
+<% @lastcat = nil %>
+<% @lastpro = nil %>
+<% @rowct = 0 %>
+
+<% @farm.products.sort_by{|p| [p.category, p.available? ? 0:1,
+                                p.name, p.price]}.each do |pro| %>
+  <% if pro.available? %>
+  <% if pro.category == @lastcat %>
+    <% if pro.name != @lastpro %>
+      </ul>
+      <li><%= link_to "#{pro.name}", farm_product_path(@farm,pro) %></li>
+      <% @lastpro = pro.name %>
+        <ul>
+          <li><%= pro.unit %></li>
+    <% else %>
+      <li><%= pro.unit %></li>
+    <% end %>
+  <% else %>
+    <% if @lastcat != nil %>
+    </ul>
+    </div>
+    </div>
+    <% if @rowct%3 == 0 %>
+    </div>
+    <% end %>
+    <% end %>
+
+    <% @lastcat = pro.category %>
+    <% @lastpro = pro.name %>
+    <% if @rowct%3 == 0 %>
+    <div class="row">
+    <% end %>
+    <div class="col-xs-4">
+      <h2 class="toggle" id="<%= pro.category.tr(" ","_") %>_but"><%= pro.category %></h2>
+      <div id="<%= pro.category.tr(" ", "_") %>">
+        <% @rowct+=1%>
+      <ul>
+        <li><%= link_to "#{pro.name}", farm_product_path(@farm, pro) %></li>
+        <ul>
+          <li><%= pro.unit %></li>
+  <% end %>
+  <% end %>
+<% end %>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-xs-12">
+<h2 class="toggle" id="table_but">Edit Product List</h2>
+<div id="table">
+<table class="table">
 <head>
   <th>Featured</th>
   <th>Category</th>
@@ -18,24 +72,46 @@
   <%= f.hidden_field :name %>
   <%= f.hidden_field :email %>
   <%= f.hidden_field :location %>
-      <%= f.fields_for :products, f.object.products.sort_by{|p| [p.available? ? 0:1, 
-	                                                         p.category, p.feature ? 0:1,
+      <%= f.fields_for :products, f.object.products.sort_by{|p| [p.category, p.available? ? 0:1, 
 	                                                         p.name, p.price]} do |form| %>
-        <tr>
+      <tr>
 	  <td><%= form.check_box :feature %></td>
 	  <td><%= form.text_field :category %></td>
 	  <td><%= form.text_field :name %></td>
 	  <td><%= form.text_field :unit %></td>
-	  <td>$ <%= form.text_field :price, data: {role: 'money', a_sep: ',', a_dec: '.'} %></td>
+	  <td><%= form.text_field :price, data: {role: 'money', a_sep: ',', a_dec: '.'} %></td>
 	  <td><%= form.text_field :quantity %></td>
 	  <td><%= form.text_area :description %></td>
 	  <td><%= form.text_area :notes %></td>
-	  <td><%= form.submit %></td>
+	  <td><%= form.submit "Update"%></td>
 	  <td><%= form.check_box '_destroy' %></td>
 	  
 	</tr>
     <% end %>
 </tbody>
 </table>
-<%= f.submit %>
+<%= f.submit "Update" %>
 <% end %>
+</div>
+</div>
+</div>
+
+
+<script>
+
+$(document).ready(function(){
+  <% @categories.each do |c| %>
+    $(<%= c %>).hide();
+    $(<%= c %>_but).click(function(){
+      $(<%= c %>).toggle();
+    });
+  <% end %>
+  
+  $(table).hide();
+  $(table_but).click(function(){
+    $(table).toggle();
+  });
+
+});
+
+</script>

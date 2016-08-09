@@ -1,29 +1,104 @@
 <h1>Edit Order: <%= @order.name %></h1>
 <p><%= link_to "Back", edit_buyer_path(current_user) %></p>
+
+<div class="row">
+<div class="col-xs-3">
 <% if !order_on? %>
 <p><%= link_to "Edit this Order", buyer_order_login_order_path(@buyer, @order) %></p>
-<% end %>
-
-<% if order_on? %>
+<% else %>
 <p><%= link_to "Stop Editing Order", buyer_order_logout_order_path(@buyer, @order) %></p>
 <% end %>
+</div>
 
-<p><%= link_to "Print Invoice", print_buyer_order_path(@buyer, @order) %></p>
+<div class="col-xs-3">
+<p><%= link_to "Print Invoice", print_buyer_order_path(@buyer, @order), method: :post %></p>
+</div>
+
+<div class="col-xs-3">
 <p><%= link_to "Place Order", place_buyer_order_path(@buyer, @order), method: :post %></p>
+</div>
 
+<div class="col-xs-3">
+<p><%= link_to "Delete", buyer_order_path(@buyer, @order), method: :delete, data: {confirm: "Are you sure?"} %></p>
+</div>
+</div>
 
 <h2>Current Products</h2>
-<ul>
-  <% @order.products.each do |p| %>
-    <li><%= p.name %> from <%= Farm.find(p.farm_id).name %>
+
+<table class="table" >
+  <tr>
+    <th>Farm</th>
+    <th>Product</th>
+    <th>Unit</th>
+    <th>Price</th>
+    <% if order_on? %>
+    <th>Remove</th>
+    <% end %>
+  </tr>
+
+  <% @lf = nil %>
+  <% @order.products.sort_by{|p| p.farm_id}.each do |p| %>
+    <% if @lf == p.farm_id %>
+    <tr>
+      <td></td>
+      <td><%= p.name %></td>
+      <td><%= p.unit %></td>
+      <td><%= number_to_currency(p.price) %></td>
         <% if order_on? %>
-	<%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></li>
+	<td><%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></td>
         <% end %>
+    </tr>
+    <% else %>
+        <tr><td><strong><%= Farm.find(p.farm_id).name %></strong></td></tr>
+	<% @lf = p.farm_id %>
+	<tr>
+	  <td></td>
+	  <td><%= p.name %></td>
+	  <td><%= p.unit %></td>
+	  <td><%= number_to_currency(p.price) %></td>
+	    <% if order_on? %>
+            <td><%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></td>
+	    <% end %>
+	</tr>
+    <% end %>
   <% end %>
-</ul>
+
+  <tr>
+    <td><strong>Total:</strong></td>
+    <td></td>
+    <td></td>
+    <td><%= number_to_currency(@order.total_price) %></td>
+  </tr>
+
+</table>
 
 <% if order_on? %>
 <h2>Add Products</h2>
+
+<% @rowct = 0 %>
+
+<% @buyer.farms.sort_by{|f| f.distance_to(@buyer) }.each do |f| %>
+  <% if @rowct%3 == 0 && @rowct != 0%>
+  </div>
+  <div class="row">
+  <% elsif @rowct == 0%>
+  <div class="row">
+  <% end %>
+
+  <div class="col-xs-4">
+    <h3><%= f.name %></h3>
+  <ul>
+    <% f.products.each do |p| %>
+    <% if p.feature %>
+      <li><%= link_to "#{p.name}", farm_product_path(f,p) %></li>
+    <% end %>
+    <% end %>
+  </ul>
+  </div>
+<% end %>
+
+</div>
+
 <p><%= link_to "See All Farms", farms_path %></p>
 <% end %>
 

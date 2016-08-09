@@ -58,7 +58,7 @@ class DistributorsController < ApplicationController
       sheet.row(i).push 'Category', 'Item', 'Unit', 'Price', 'Quantity', 'Description', 'Notes'
       i+=1
       f.products.sort_by{|p| [p.category, p.name.downcase, p.price]}.each do |p|
-        if p.available
+        if p.quantity > 0
 	  sheet.row(i).push p.category, p.name, p.unit, p.price, p.quantity, p.description, p.notes
 	  i+=1
 	end

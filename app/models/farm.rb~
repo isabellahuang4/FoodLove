@@ -7,7 +7,7 @@ class Farm < User
 
   mount_uploader :file, FileUploader
 
-  accepts_nested_attributes_for :products
+  accepts_nested_attributes_for :products, :allow_destroy => true
 
   scope :name_search, -> (name) {where("name like ?", "%#{name}%")}
   scope :location_search, -> (loc) {where("location like ?", "%#{loc}")}

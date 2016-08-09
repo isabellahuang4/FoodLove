@@ -1,11 +1,22 @@
 <h1><%= @buyer.name %> </h1>
-<p><%= link_to "Home", root_url %>
+
+<p class="toggle" id="edit_but">Edit Account</p>
+<div id="edit">
+<%= form_for @buyer do |f| %>
+  <p><%= f.label :name %><%= f.text_field :name %></p>
+  <p><%= f.label :email %><%= f.text_field :email %></p>
+  <p><%= f.label :location %><%= f.text_field :location %></p>
+  <p><%= f.submit %></p>
+<% end %>
+<p><%= link_to "Delete Account", user_path(@buyer), method: :delete, data: {confirm: "Are you sure?"} %></p>
+</div>
+
 
 <div class="row">
 <div class="col-xs-6">
 <h2>My Orders</h2>
   <% if order_on? %>
-    <p>You are currently editing an order. 
+    <p>You are currently ordering for <%= current_order.name %>. 
        <%= link_to "Keep Ordering", edit_buyer_order_path(@buyer, current_order) %></p>
   <% else %>
   <ul>
@@ -19,11 +30,9 @@
   <h2>Create a New Order</h2>
   <%= form_for :order, :url => buyer_orders_path(@buyer), method: :post do |form|%>
     <p>
-      <%= form.label :name %><br>
-      <%= form.text_field :name %>
-    </p>
+    <%= form.text_field :name, :value => "Order Name"  %>
     <%= form.hidden_field :buyer_id, value: @buyer.id %>
-    <p><%= form.submit %></p>
+    <%= form.submit "Start Ordering"%></p>
   <% end %>
 </div>
 </div>
@@ -32,23 +41,23 @@
 <div class="col-xs-6">
 <h2>Featured Products</h2>
   <ul>
-    <% @farms.each do |f| %>
+    <% @myfarms.each do |f| %>
+      <li><%= f.name %></li>
+      <ul>
       <% f.products.each do |p| %>
         <% if p.feature %>
-	  <li><%= p.name %> from <%= f.name %>
-	      <% if order_on? %>
-	        <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,p) %>
-	      <% end %></li>
+	  <li><%= link_to "#{p.name}", farm_product_path(f,p) %></li>
 	<% end %>
       <% end %>
+      </ul>
     <% end %>
   </ul>
 </div>
 <div class="col-xs-6">
 <h2>Search Products</h2>
 <%= form_tag(search_path, :method => "get") do %>
-  <%= text_field_tag(:name_or_cat) %>
-  <%= submit_tag("Search") %>
+  <p><%= text_field_tag(:name_or_cat) %>
+  <%= submit_tag("Search") %></p>
 <% end %>
 </div>
 </div>
@@ -71,13 +80,13 @@
       <% end %>
   <% end %>
 </ul>
+<p><%= link_to "Add A Farm", add_farm_buyer_path(@buyer), method: :get %></p>
 </div>
 <div class="col-xs-6">
-<p><%= link_to "Add A Farm", add_farm_buyer_path(@buyer), method: :get %></p>
-<h4>Search Farms</h4>
+<h2>Search Farms</h2>
 <%= form_tag(search_farms_path, :method => "get") do %>
-  <%= text_field_tag(:name) %>
-  <%= submit_tag("Search") %>  
+  <p><%= text_field_tag(:name_search) %>
+  <%= submit_tag("Search") %>  </p>
 <% end %>
 </div>
 </div>
@@ -98,19 +107,8 @@
 
 <br>
 
-<h2 id="edit_but">Edit Account</h2>
-<div id="edit">
-<%= form_for @buyer do |f| %>
-  <p><%= f.label :name %><%= f.text_field :name %></p>
-  <p><%= f.label :email %><%= f.text_field :email %></p>
-  <p><%= f.label :location %><%= f.text_field :location %></p>
-  <p><%= f.submit %></p>
-<% end %>
-<p><%= link_to "Delete Account", user_path(@buyer), method: :delete, data: {confirm: "Are you sure?"} %></p>
-</div>
-
-
-
+<% if false %>
+<!----
 <h2>Farms Near Me</h2>
 <% if @nearfarms != nil %>
 <ul>
@@ -121,7 +119,8 @@
 <% else %>
 <p>There are no farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
 <% end %>
-
+-->
+<% end %>
 
 <script>
 $(document).ready(function(){

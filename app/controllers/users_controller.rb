@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    @user = User.new
     type=params[:user][:type]
     case type
       when "Farm"
@@ -35,8 +36,6 @@ class UsersController < ApplicationController
                          	:password_confirmation	=> params[:user][:password_confirmation],
 				:location => '',
                           	:type => type })
-      else
-        render 'new'
     end 
     if @user.save
       log_in @user

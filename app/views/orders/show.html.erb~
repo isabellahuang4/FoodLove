@@ -1,2 +1,25 @@
-<% if logged_in && current_user.type == "Farm" %>
+<h1><%= @order.name %></h1>
+<h2><%= @buyer.name %></h2>
+
+<table class="table">
+<tr>
+  <th>Product</th>
+  <th>Unit</th>
+  <th>Price</th>
+</tr>
+<% @products.each do |p| %>
+  <% if @farm != nil && p.farm_id == @farm.id %>
+    <tr>
+      <td><%= p.name %></td>
+      <td><%= p.unit %></td>
+      <td><%= number_to_currency(p.price) %></td>
+    </tr>
+  <% elsif @dist != nil %>
+    <tr>
+      <td><%= p.name %></td>
+      <td><%= p.unit %></td>
+      <td><%= number_to_currency(p.price) %></td>
+    </tr>
+  <% end %>
 <% end %>
+</table>

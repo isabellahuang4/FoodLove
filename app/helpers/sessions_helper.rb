@@ -26,6 +26,9 @@ module SessionsHelper
   end
 
   def log_out
+    if(order_on?)
+      close
+    end
     forget(current_user)
     session.delete(:user_id)
     @current_user = nil
@@ -42,8 +45,12 @@ module SessionsHelper
   end
 
   def current_order
-    @buyer = Buyer.find(current_user.id)
-    @current_order ||= @buyer.orders.find_by(id: session[:order_id])
+    if current_user.type == "Buyer"
+      @buyer = Buyer.find(current_user.id)
+      @current_order ||= @buyer.orders.find_by(id: session[:order_id])
+    else
+      @current_order = nil
+    end
   end
 
   def order_on?

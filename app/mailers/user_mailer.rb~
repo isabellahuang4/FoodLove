@@ -28,7 +28,7 @@ class UserMailer < ApplicationMailer
     @dist = dist
     @order = order
     @buyer = Buyer.find(@order.buyer_id)
-    attachments["#{buyer.name}_order_#{Date.current}.xls] = 
+    attachments["#{@buyer.name}_order_#{Date.current}.xls"] =
       File.read(Rails.root.join('print', 'orders', "#{@dist.name}_#{@buyer.name}_#{Date.current}.xls"))
     mail(to: @dist.email, subject: "Order from #{@buyer.name}")
   end

@@ -1,15 +1,82 @@
-<h1>Farm: <%= @farm.name %></h1>
-<h3>Location: <%= @farm.location %></h3>
+<h1><%= @farm.name %></h1>
+
+<h3><center>Location: <%= @farm.location %></center></h3>
 <% if order_on? %>
   <p><%= link_to "Return to Order Page", edit_buyer_order_path(current_user,current_order) %></p>
 <% end %>
 
-<h2>Products</h2>
-<ul>
-<% @farm.products.each do |p| %>
-  <li><%= link_to "#{p.name}", farm_product_path(@farm,p) %>
-      <% if order_on? %>
-        <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,p)%>
-      <% end %></li>
+<p><small>click on category titles to see/hide products</small></p>
+<% @lastcat = nil %>
+<% @lastpro = nil %>
+<% @rowct = 0 %>
+
+<% @farm.products.sort_by{|p| [p.category, p.available? ? 0:1,
+                                p.name, p.price]}.each do |pro| %>
+  <% if pro.available? %>
+  <% if pro.category == @lastcat %>
+    <% if pro.name != @lastpro %>
+      </ul>
+      <li><%= link_to "#{pro.name}", farm_product_path(@farm,pro) %></li>
+      <% @lastpro = pro.name %>
+        <ul>
+	  <li><%= pro.unit %> 
+	    <% if order_on? %>
+              <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,pro)%>
+            <% end %></li>
+    <% else %>
+      <li><%= pro.unit %>
+	<% if order_on? %>
+           <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,pro)%>
+        <% end %></li>
+    <% end %>
+  <% else %>
+    <% if @lastcat != nil %>
+    </ul>
+    </div>
+    </div>
+    <% if @rowct%3 == 0 %>
+    </div>
+    <% end %>
+    <% end %>
+
+    <% @lastcat = pro.category %>
+    <% @lastpro = pro.name %>
+    <% if @rowct%3 == 0 %>
+    <div class="row">
+    <% end %>
+    <div class="col-xs-4">
+      <h2 class="toggle" id="<%= pro.category.tr(" ","_") %>_but"><%= pro.category %></h2>
+      <div id="<%= pro.category.tr(" ", "_") %>">
+        <% @rowct+=1%>
+      <ul>
+        <li><%= link_to "#{pro.name}", farm_product_path(@farm, pro) %></li>
+	<ul>
+	  <li><%= pro.unit %>
+            <% if order_on? %>
+              <%= link_to "Add", add_product_buyer_order_path(current_user,current_order,pro)%>
+            <% end %></li>
+  <% end %>
+  <% end %>
 <% end %>
 </ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+$(document).ready(function(){
+  <% @categories.each do |c| %>
+    $(<%= c %>).hide();
+    $(<%= c %>_but).click(function(){
+      $(<%= c %>).toggle();
+    });
+  <% end %>
+});
+</script>

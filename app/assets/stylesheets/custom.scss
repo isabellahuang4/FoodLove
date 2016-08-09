@@ -41,18 +41,34 @@ h1 {
 }
 
 h2 {
-  font-size: 1.2em;
+  font-size: 2em;
   letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: $gray-light;
+  color: red;
 }
 
 p {
   font-size: 1.1em;
   line-height: 1.7em;
+  text-align: center;
 } 
+
+a {
+  color: red;
+}
+
+.toggle:hover {
+  color: gray;	      
+}
+
+.danger {
+  color: red;
+  font-size: 1.5em;
+  text-align: center;
+  font-weight: bold;
+}
 
 /* header */
 
@@ -97,3 +113,24 @@ footer {
     }  
   }
 }
+
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  margin-bottom: 15px;
+}
+
+input {
+  height: auto !important;
+}
+
+.field_with_errors {
+  text-align: center;
+  p {
+    color: red;
+  }
+  height: auto !important;
+}
+

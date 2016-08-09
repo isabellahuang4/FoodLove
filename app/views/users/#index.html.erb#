@@ -1,0 +1,13 @@
+<div class="center jumbotron">
+  <h1>Welcome!</h1>
+
+  
+
+  <% if !logged_in? %>
+  <br>
+  <%= link_to "Learn About FoodLove", about_path, class: "btn btn-lg btn-danger"  %><br><br>
+
+  <%= link_to "Sign up now!", new_user_path, class: "btn btn-lg btn-danger" %>
+
+  <% end %>
+</div>

@@ -10,10 +10,6 @@
 	 ['Distributor'],
 	 ['Farm']]), {}, id: "usertype" %>
   </p>
-  <div id="location" style="display:none;">
-    <%= f.label :location %><br>
-    <input id="location" name="user[location]" type="text" />
-  </div>
   <p>
     <%= f.label :name %> <br>
     <%= f.text_field :name %>
@@ -22,6 +18,10 @@
     <%= f.label :email %><br>
     <%= f.email_field :email %>
   </p>
+  <div id="location" style="display:none;">
+   <p> <%= f.label :location, "Address" %><br>
+    <input id="location" name="user[location]" type="text" /></p>
+  </div>
   <p>
     <%= f.label :password %><br>
     <%= f.password_field :password %>
@@ -31,7 +31,7 @@
     <%= f.password_field :password_confirmation %>
   </p>
   <p>
-    <%= f.submit %>
+    <%= f.submit "Create Account"%>
   </p>
 <% end %>
 
@@ -40,13 +40,13 @@ $('#usertype').change(function(){
   selection = $(this).val();
   switch(selection)
   {
-    case '1':
+    case 'Buyer':
        $('#location').show();
        break;
-    case '3':
+    case 'Farm':
        $('#location').show();
        break;
-    case '2':
+    case 'Distributor':
        $('#location').hide();
        break;
     default:

@@ -1,4 +1,11 @@
 <h1>Log In</h1>
+
+<% if flash[:danger] %>
+    <div class="col-xs-12 danger"><%= flash[:danger] %></div>
+<% end %>
+
+<div class="row">
+<div class="col-xs-12">
 <p>Don't have an account? <%= link_to "Create one!", new_user_path %> </p>
 <%= form_for(:session, url: login_path) do |f| %>
   <p>
@@ -17,3 +24,5 @@
     <%= f.submit "Log In"%>
   </p>
 <% end %>
+</div>
+</div>

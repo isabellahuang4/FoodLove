@@ -1,23 +1,26 @@
 <h1><%= @distributor.name %></h1>
-<p><%= link_to "Home", root_url %></p>
-<p><%= link_to "Print", printall_distributor_path(@distributor) %></p>
-
+<div class="row">
+<div class="col-xs-6">
 <h2>Orders</h2>
 <ul>
   <% @orders.each do |o| %>
     <% if DateTime.now.days_ago(7) < o.placed %>
-       <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id) %></li>
+       <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %></li>
     <% end %>
   <% end %>
 </ul>
+</div>
 
+<div class="col-xs-6">
 <h2>My Farms</h2>
+<p><%= link_to "Print My Farm Product Lists", printall_distributor_path(@distributor), method: :post %></p>
 
 <ul>
   <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
-    <li><%= farm.name %></li>
+    <li><%= link_to "#{farm.name}", farm_path(farm) %></li>
   <% end %>
 </ul>
 
 <p><%= link_to "Add A Farm", add_farm_distributor_path(@distributor), method: :get %></p>
-
+</div>
+</div>

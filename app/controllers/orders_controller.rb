@@ -6,7 +6,8 @@ class OrdersController < ApplicationController
     @products = @order.products
     if logged_in? && current_user.type == "Farm"
       @farm = Farm.find(current_user.id)
-    else
+    elsif logged_in? && current_user.type == "Distributor"
+      @dist = Distributor.find(current_user.id)
     end
   end
 
@@ -18,6 +19,7 @@ class OrdersController < ApplicationController
     @buyer = Buyer.find(params[:buyer_id])
     @order = @buyer.orders.create({:name => params[:order][:name],
     	                           :buyer_id => params[:order][:buyer_id]})
+    open(@order)
     redirect_to edit_buyer_path(@buyer)
   end
 
@@ -27,11 +29,18 @@ class OrdersController < ApplicationController
     @products = @order.products
   end
 
+  def destroy
+    @buyer = Buyer.find(params[:buyer_id])
+    @buyer.orders.delete(Order.find(params[:id]))
+    redirect_to edit_buyer_path(@buyer)
+  end
+
   def add_product
     @buyer = Buyer.find(params[:buyer_id])
     @order = Order.find(params[:id])
     @product = Product.find(params[:format])
     @order.products.push(@product)
+
     @farm = Farm.find(@product.farm_id)
     redirect_to @farm
   end
@@ -98,7 +107,8 @@ class OrdersController < ApplicationController
 
   def print
     print_all
-    redirect_to edit_buyer_order_path(@buyer,@order)    
+    send_file Rails.root.join('print', 'orders', "#{@buyer.name}_#{Date.current}.xls"), disposition: 'attachment'
+#    redirect_to edit_buyer_order_path(@buyer,@order)    
   end
 
   private
@@ -205,5 +215,6 @@ class OrdersController < ApplicationController
       end
       return @shared
     end
-  
+
+    
 end

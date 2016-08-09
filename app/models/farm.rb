@@ -9,7 +9,7 @@ class Farm < User
 
   accepts_nested_attributes_for :products, :allow_destroy => true
 
-  scope :name_search, -> (name) {where("name like ?", "%#{name}%")}
+  scope :name_search, -> (name) {where("name like ? or location like ?", "%#{name}%", "%#{name}%")}
   scope :location_search, -> (loc) {where("location like ?", "%#{loc}")}
   
   def add_order(order,f_id)

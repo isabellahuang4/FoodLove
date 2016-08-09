@@ -3,7 +3,6 @@ class UserMailer < ApplicationMailer
   
   def welcome_email(user)
     @user = user
-    @url = Rails.root
     mail(to: @user.email, subject: 'Welcome to FoodLove')
   end
 

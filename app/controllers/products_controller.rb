@@ -1,6 +1,14 @@
 class ProductsController < ApplicationController
   def index
     @farm = Farm.find(params[:farm_id])
+    @categories = Array.new
+    @cat = nil
+    @farm.products.sort_by{|p| [p.category]}.each do |pro|
+      if pro.category != @cat
+        @categories.push pro.category.tr(" ", "_")
+	@cat = pro.category
+      end 
+    end
   end
 
   def search
@@ -8,6 +16,12 @@ class ProductsController < ApplicationController
     filtering_params(params).each do |key, value|
       @products = @products.public_send(key, value) if value.present?
     end
+    @products=@products.sort_by{|p| [Farm.find(p.farm_id).distance_to(current_user) ,p.name]}
+  end
+
+  def new
+    @farm = Farm.find(params[:farm_id])
+    @product = Product.new
   end
 
   def create

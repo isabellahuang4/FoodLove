@@ -13,16 +13,26 @@
     <th>Unit</th>
     <th>Price</th>
     <th>Available Quantity</th>
+    <% if logged_in? && current_user.type == "Buyer" %>
+      <th>Add to Order</th>
+    <% end %>
   </tr>
+
   <% @farm.products.each do |p| %>
     <% if p.name == @product.name %>
+    <tr>
       <td><%= p.unit%></td>
       <td><%= p.price %></td>
       <td><%= p.quantity %></td>
+      <% if logged_in? && current_user.type == "Buyer" && order_on? %>
+        <td><%= link_to "Add", add_product_buyer_order_path(current_user, current_order, p) %></td>
+      <% elsif logged_in? && current_user.type == "Buyer" %>
+        <%= form_for :order, :url =>  add_prod_buyer_path(current_user, p) do |form|%>
+        <td><%= form.select :order, current_user.orders %><%= form.submit %></td>
+	<% end %>
+      <% end %>
+    </tr>
     <% end %>
   <% end %>
-  <tr>
-    <td></td>
-  </tr>
 
 </table>

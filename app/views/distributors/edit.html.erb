@@ -1,7 +1,18 @@
 <h1><%= @distributor.name %></h1>
-<p><%= link_to "Home", root_url %></p>
-<p><%= link_to "Print", printall_distributor_path(@distributor) %></p>
 
+<p class="toggle" id="edit_but">Edit Account</p>
+<div id="edit">
+<%= form_for @distributor do |f| %>
+  <p><%= f.label :name %><%= f.text_field :name %></p>
+  <p><%= f.label :email %><%= f.text_field :email %></p>
+  <p><%= f.submit %></p>
+<% end %>
+<p><%= link_to "Delete Account", user_path(@distributor), method: :delete, data: {confirm: "Are you sure?"} %></p\
+>
+</div>
+
+<div class="row">
+<div class="col-xs-6">
 <h2>Orders</h2>
 <ul>
   <% @orders.each do |o| %>
@@ -10,14 +21,30 @@
     <% end %>
   <% end %>
 </ul>
+</div>
 
+<div class="col-xs-6">
 <h2>My Farms</h2>
+<p><%= link_to "Print My Farm Product Lists", printall_distributor_path(@distributor), method: :post %></p>
 
 <ul>
   <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
-    <li><%= farm.name %></li>
+    <li><%= link_to "#{farm.name}", farm_path(farm) %></li>
   <% end %>
 </ul>
 
 <p><%= link_to "Add A Farm", add_farm_distributor_path(@distributor), method: :get %></p>
+</div>
+</div>
 
+<script>
+$(document).ready(function(){
+    $(edit).hide();
+
+    $(edit_but).click(function(){
+        $(edit).toggle();
+    });
+
+
+});
+</script>

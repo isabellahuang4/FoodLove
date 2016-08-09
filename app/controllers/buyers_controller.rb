@@ -14,10 +14,9 @@ class BuyersController < ApplicationController
    
   def edit
     @buyer=Buyer.find(params[:id])
-    @farms=Farm.all   #sort_by{|f| f.distance_to(@buyer) }
+    @farms=Farm.all.sort_by{|f| f.distance_to(@buyer) }
     @nearfarms = Farm.near(@buyer,50)
-
-    @myfarms = @buyer.farms  #sort_by{|f| f.distance_to(@buyer) }
+    @myfarms = @buyer.farms.sort_by{|f| f.distance_to(@buyer) }
     @dists = Distributor.all
     @mydists = @buyer.distributors
   end
@@ -43,6 +42,16 @@ class BuyersController < ApplicationController
     @buyer=Buyer.find(params[:id])
     @buyer.destroy
     redirect_to buyers_path
+  end
+
+  #for not-yet-specified orders
+  def add_prod
+    @buyer = Buyer.find(params[:id])
+    @order = Order.find_by(name: params[:order][:order])
+    @pro = Product.find(params[:format])
+    @order.products.push(@pro)
+
+    redirect_to edit_buyer_order_path(@buyer, @order)
   end
 
   def add_farm

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to:	'sessions#destroy'
 
+  get '/about', to: 'welcome#about'
+
   get "/search", to: 'products#search'
 
   get "/search_farms", to: 'farms#search'
@@ -16,9 +18,11 @@ Rails.application.routes.draw do
     patch 'upload', :on => :member
     post 'sendnotif', :on => :member
     delete 'dismiss_order', :on => :member
+    post 'print', :on => :member
+    post 'sample'
   end
   resources :distributors do
-    get 'printall', :on => :member
+    post 'printall', :on => :member
     get 'add_farm', :on => :member
     post 'new_farm', :on => :member
   end
@@ -29,11 +33,12 @@ Rails.application.routes.draw do
     get 'add_dist', :on => :member
     post 'new_dist', :on => :member
     delete 'remove_dist', :on => :member
+    post 'add_prod', :on => :member
     resources :orders do
       get 'login_order', to: 'sessions#order_start'
       get 'logout_order', to: 'sessions#order_end'
       get 'add_product', :on => :member
-      get 'print', :on => :member
+      post 'print', :on => :member
       delete 'remove_product', :on => :member
       post 'place', :on => :member
     end

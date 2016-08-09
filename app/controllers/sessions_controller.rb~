@@ -21,14 +21,14 @@ class SessionsController < ApplicationController
 
   def order_start
     @buyer = Buyer.find(current_user.id)
-    order = @buyer.orders.find(params[:session][:id]
+    order = @buyer.orders.find(params[:order_id])
     open order
-    redirect_to edit_buyer_order_path(order)
+    redirect_to edit_buyer_order_path(@buyer.id, order.id)
   end
 
   def order_end
     close if order_on?
-    redirect_to buyer_path(current_user.id)
+    redirect_to edit_buyer_path(current_user.id)
   end
 
 end

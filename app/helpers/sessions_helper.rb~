@@ -37,4 +37,26 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
+  def open(order)
+    session[:order_id]=order.id
+  end
+
+  def current_order
+    if current_user.type == "Buyer"
+      @buyer = Buyer.find(current_user.id)
+      @current_order ||= @buyer.orders.find_by(id: session[:order_id])
+    else
+      @current_order = nil
+    end
+  end
+
+  def order_on?
+    !current_order.nil?
+  end
+
+  def close
+    session.delete(:order_id)
+    @current_order = nil
+  end
+
 end
