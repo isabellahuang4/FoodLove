@@ -7,8 +7,7 @@
   <p><%= f.label :email %><%= f.text_field :email %></p>
   <p><%= f.submit %></p>
 <% end %>
-<p><%= link_to "Delete Account", user_path(@distributor), method: :delete, data: {confirm: "Are you sure?"} %></p\
->
+<p><%= link_to "Delete Account", user_path(@distributor), method: :delete, data: {confirm: "Are you sure?"} %></p>
 </div>
 
 <div class="row">
@@ -17,7 +16,8 @@
 <ul>
   <% @orders.each do |o| %>
     <% if DateTime.now.days_ago(7) < o.placed %>
-       <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %></li>
+       <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %>
+           <%= link_to "Dismiss", dismiss_order_distributor_path(@distributor, o), method: :delete, data: {confirm: "Are you sure?"} %></li>
     <% end %>
   <% end %>
 </ul>
@@ -29,7 +29,8 @@
 
 <ul>
   <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
-    <li><%= link_to "#{farm.name}", farm_path(farm) %></li>
+    <li><%= link_to "#{farm.name}", farm_path(farm) %> | 
+        <%= link_to "Remove", remove_farm_distributor_path(@distributor, farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
   <% end %>
 </ul>
 

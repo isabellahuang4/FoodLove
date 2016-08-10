@@ -2,7 +2,7 @@
 
 <h2>Farms We Work With</h2>
 <ul>
-<% @dist.farms.sort_by{|f| f.name}.each do |f| %>
+<% @distributor.farms.sort_by{|f| f.name}.each do |f| %>
   <li><%= link_to "#{f.name}", farm_path(f) %></li>
 <% end %>
 </ul>

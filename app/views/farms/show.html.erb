@@ -1,8 +1,13 @@
-<h1><%= @farm.name %></h1>
+  <% if flash[:notice] %>
+    <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
+  <% end %>
 
+<h1><%= @farm.name %></h1>
 <h3><center>Location: <%= @farm.location %></center></h3>
 <% if order_on? %>
   <p><%= link_to "Return to Order Page", edit_buyer_order_path(current_user,current_order) %></p>
+<% else %>
+  <p><%= link_to "Back", edit_user_path(current_user) %></p>
 <% end %>
 
 <p><small>click on category titles to see/hide products</small></p>

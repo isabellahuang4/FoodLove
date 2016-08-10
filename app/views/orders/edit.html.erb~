@@ -31,6 +31,7 @@
     <th>Product</th>
     <th>Unit</th>
     <th>Price</th>
+    <th>Quantity</th>
     <% if order_on? %>
     <th>Remove</th>
     <% end %>
@@ -40,11 +41,16 @@
   <% @order.products.sort_by{|p| p.farm_id}.each do |p| %>
     <% if @lf == p.farm_id %>
     <tr>
+      <% @quantity = @order.quantities.find_by(product_id: p.id) %>
       <td></td>
       <td><%= p.name %></td>
       <td><%= p.unit %></td>
       <td><%= number_to_currency(p.price) %></td>
+      <% if !order_on? %><td><%= @quantity.quant %></td><% end %>
         <% if order_on? %>
+	<td><%= form_for :quantity do |f|%>
+                <%= f.hidden_field :product, :value => p.id %>
+                <%= f.number_field :quantity, :value => @quantity.quant %><%= f.submit "Update"%><% end %></td>
 	<td><%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></td>
         <% end %>
     </tr>
@@ -52,11 +58,16 @@
         <tr><td><strong><%= Farm.find(p.farm_id).name %></strong></td></tr>
 	<% @lf = p.farm_id %>
 	<tr>
+	  <% @quantity = @order.quantities.find_by(product_id: p.id) %>
 	  <td></td>
 	  <td><%= p.name %></td>
 	  <td><%= p.unit %></td>
 	  <td><%= number_to_currency(p.price) %></td>
+	  <% if !order_on? %><td><%= @quantity.quant %></td><% end %>
 	    <% if order_on? %>
+	    <td><%= form_for :quantity do |f|%>
+	        <%= f.hidden_field :product, :value => p.id %>
+	        <%= f.number_field :quantity, :value => @quantity.quant %><%= f.submit "Update"%><% end %></td>
             <td><%= link_to "Remove", remove_product_buyer_order_path(@buyer,@order,p), method: :delete, data: {confirm: "Are you sure?" } %></td>
 	    <% end %>
 	</tr>
@@ -67,7 +78,8 @@
     <td><strong>Total:</strong></td>
     <td></td>
     <td></td>
-    <td><%= number_to_currency(@order.total_price) %></td>
+    <td><strong><%= number_to_currency(@order.total_price) %></strong></td>
+    <td></td>
   </tr>
 
 </table>
@@ -77,8 +89,7 @@
 
 <% @rowct = 0 %>
 
-<% if false %><!-- make sort by distance --> <% end %>
-<% @buyer.farms.sort_by{|f| f.name}.each do |f| %>
+<% @buyer.farms.sort_by{|f| f.distance_to(@buyer) }.each do |f| %>
   <% if @rowct%3 == 0 && @rowct != 0%>
   </div>
   <div class="row">

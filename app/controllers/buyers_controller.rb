@@ -35,6 +35,8 @@ class BuyersController < ApplicationController
     @buyer.update_attribute(:name, params[:buyer][:name])
     @buyer.update_attribute(:email, params[:buyer][:email])
     @buyer.update_attribute(:location, params[:buyer][:location])
+    @buyer.save
+    flash[:notice]="Account updated successfully!"
     redirect_to edit_buyer_path(@buyer)
   end
 
@@ -56,8 +58,14 @@ class BuyersController < ApplicationController
 
   def add_farm
     @buyer = Buyer.find(params[:id])
-    @farms = Farm.all
-  end
+    @nearfarms = Array.new
+    Farm.all.each do |f|
+      if f.distance_to(@buyer) < 50 && !@buyer.farms.exists?(f.id)
+        @nearfarms.push f
+      end
+    end
+    @nearfarms=@nearfarms.sort_by{|f| f.distance_to(@buyer)}
+   end
 
   def new_farm
     @buyer = Buyer.find(params[:id])

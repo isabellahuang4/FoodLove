@@ -1,5 +1,5 @@
-<h1>Search Results</h1>
-<p><%= link_to "Home", root_url %></p>
+<h1>Product Search Results</h1>
+<p><%= link_to "Back", edit_user_path(current_user) %></p>
 <% if @products==[] %>
   <p>No products matched your search criteria.</p>
 <% else %>
@@ -29,6 +29,7 @@
   <%= submit_tag("Search") %></p>
 <% end %>
 
+<% if false %>
 <h2>Advanced Search</h2>
 <%= form_tag(search_path, :method => "get") do %>
 <p>
@@ -39,11 +40,14 @@
   <%= label_tag(:category_search, "Category:") %>
   <%= text_field_tag(:category_search) %>
 </p>
+<% if false %>
 <p>
   <%= label_tag(:farm_search, "Farm:") %>
   <%= text_field_tag(:farm_search) %>
 </p>
+<% end %>
 <p>
   <%= submit_tag("Search") %>
 </p>
+<% end %>
 <% end %>

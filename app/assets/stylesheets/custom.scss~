@@ -113,3 +113,24 @@ footer {
     }  
   }
 }
+
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  margin-bottom: 15px;
+}
+
+input {
+  height: auto !important;
+}
+
+.field_with_errors {
+  text-align: center;
+  p {
+    color: red;
+  }
+  height: auto !important;
+}
+

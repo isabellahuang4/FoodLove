@@ -8,4 +8,8 @@ class Product < ActiveRecord::Base
   scope :farm_search, -> (farm_name) { where farm_id: Farm.find_by(farm_name).id }
   scope :name_or_cat, -> (name_or_cat) {where("name like ? or category like ?", "%#{name_or_cat}%", "%#{name_or_cat}%")}
 
+  def available?
+    return self.quantity>0
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160729142430) do
+ActiveRecord::Schema.define(version: 20160809175706) do
 
   create_table "buyers", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -54,14 +54,6 @@ ActiveRecord::Schema.define(version: 20160729142430) do
 
   add_index "orders", ["buyer_id"], name: "index_orders_on_buyer_id"
 
-  create_table "orders_products", id: false, force: :cascade do |t|
-    t.integer "order_id"
-    t.integer "product_id"
-  end
-
-  add_index "orders_products", ["order_id"], name: "index_orders_products_on_order_id"
-  add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id"
-
   create_table "orders_users", id: false, force: :cascade do |t|
     t.integer "farm_id"
     t.integer "order_id"
@@ -85,6 +77,17 @@ ActiveRecord::Schema.define(version: 20160729142430) do
     t.text     "notes"
     t.integer  "farm_id"
   end
+
+  create_table "quantities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "quant"
+    t.integer  "order_id"
+    t.integer  "product_id"
+  end
+
+  add_index "quantities", ["order_id"], name: "index_quantities_on_order_id"
+  add_index "quantities", ["product_id"], name: "index_quantities_on_product_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "name"

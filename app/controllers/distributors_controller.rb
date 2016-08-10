@@ -84,4 +84,17 @@ class DistributorsController < ApplicationController
     redirect_to edit_distributor_path(@dist)
   end
 
+  def remove_farm
+    @dist = Distributor.find(params[:id])
+    @dist.farms.delete(Farm.find(params[:format]))
+    redirect_to edit_distributor_path(@dist)
+  end
+
+  def dismiss_order
+    @dist = Distributor.find(params[:id])
+    @order = @dist.orders.find(params[:format])
+    @dist.orders.delete(@order)
+    redirect_to edit_distributor_path(@dist)
+  end
+
 end

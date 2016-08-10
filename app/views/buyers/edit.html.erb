@@ -1,3 +1,7 @@
+  <% if flash[:notice] %>
+    <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
+  <% end %>
+
 <h1><%= @buyer.name %> </h1>
 
 <p class="toggle" id="edit_but">Edit Account</p>
@@ -57,7 +61,7 @@
 <h2>My Farms</h2>
 <ul>
   <% @myfarms.each do |farm| %>
-    <li><%= link_to "#{farm.name}", farm_path(farm) %> |
+    <li><%= link_to "#{farm.name}", farm_path(farm) %> | <%= farm.distance_to(current_user).round(2) %> miles |
         <%= link_to "Remove", remove_farm_buyer_path(@buyer,farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
       <% if farm.notifications != nil %>
         <ul>

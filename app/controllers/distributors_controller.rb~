@@ -71,7 +71,6 @@ class DistributorsController < ApplicationController
     book.write Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
     send_file Rails.root.join('print', "#{@dist.name}_#{Date.current}.xls")
     
-    redirect_to distributor_edit_path(@dist)
   end
 
   def add_farm
@@ -82,6 +81,13 @@ class DistributorsController < ApplicationController
   def new_farm
     @dist = Distributor.find(params[:id])
     @dist.farms.push(Farm.find(params[:format]))
+    redirect_to edit_distributor_path(@dist)
+  end
+
+  def dismiss_order
+    @dist = Distributor.find(params[:id])
+    @order = @dist.orders.find(params[:format])
+    @dist.orders.delete(@order)
     redirect_to edit_distributor_path(@dist)
   end
 

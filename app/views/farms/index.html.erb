@@ -1,6 +1,10 @@
-<h1>Farms</h1>
+<h1>All Farms</h1>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
 <ul>
 <% @farms.sort_by{|f| f.distance_to(current_user) }.each do |f| %>
-  <li><%= link_to "#{f.name}", farm_path(f) %></li>
+  <li><%= link_to "#{f.name}", farm_path(f) %> | <%= f.distance_to(current_user).round(2) %> miles</li>
 <% end %>
 </ul>
+</div>
+</div>

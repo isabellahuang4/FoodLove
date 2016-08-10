@@ -6,9 +6,9 @@
 <% @lf = nil %>
 <% @lp = nil %>
 <% @products.each do |p| %>
-  <% if p.name != @lp %>
+  <% if p.name != @lp && p.available? %>
   <% if p.farm_id != @lf %>
-    <% if @lf = nil %>  </ul> <% end %> 
+    <% if @lf != nil %>  </ul> <% end %> 
     <h3><%= Farm.find(p.farm_id).name %></h3>
     <% @lf = p.farm_id %>
     <ul>

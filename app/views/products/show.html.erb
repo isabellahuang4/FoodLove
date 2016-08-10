@@ -1,12 +1,15 @@
-<h1>Product: <%= @product.name %></h1>
-<h2>Farm: <%= @farm.name %></h2>
+<h1><%= @product.name %></h1>
+<h2><%= @farm.name %></h2>
 
+
+<div class="col-xs-6 col-xs-offset-3">
 <% if @product.feature %>
-  <h3>Featured!</h3>
+  <h3><center>Featured!</center></h3>
 <% end %>
-<p>Category: <%= @product.category %></p>
-<p>Description: <%= @product.description %></p>
-<p>Notes This Week: <%= @product.notes %></p>
+<p><strong>Category:</strong> <%= @product.category %></p>
+<p><strong>Description: </strong><%= @product.description %></p>
+<p><strong>Notes This Week: </strong><%= @product.notes %></p>
+</div>
 
 <table class="table">
   <tr>

@@ -1,3 +1,7 @@
+  <% if flash[:notice] %>
+    <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
+  <% end %>
+
 <h1><%= @farm.name %></h1>
 
 <p class="toggle" id="edit_but">Edit Account</p>
@@ -17,7 +21,7 @@
     <h2>Orders</h2>
     <ul>
       <% @orders.each do |o| %>
-      <% if o.placed != nil %>
+      <% if o.placed != nil && o.buyer_id != nil %>
       <% if DateTime.now.days_ago(7) < o.placed %>
 	 <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %>
 	   <%= link_to "Dismiss", dismiss_order_farm_path(@farm, o), method: :delete, data: {confirm: "Are you sure?"} %></li>
@@ -41,16 +45,30 @@
 
     <p><%= link_to "View and Edit Products", farm_products_path(@farm) %></p>
     <p><%= link_to "Print Spreadsheet", print_farm_path(@user), method: :post %></p>
+    <p><small>Don't forget to mark products to feature!</small></p>
   </div>
 </div>
 
-<div>
+
+<div class="row">
+<div class="col-xs-6">
+  <h2>My Current Notifications</h2>
+  <ul>
+    <% @notifs.each do |n| %>
+      <% if DateTime.now.days_ago(7) < n.created_at %>
+	 <li><%= n.created_at.localtime.strftime("%b-%d %I:%M %p") %>: <%= n.notif %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+<div class="col-xs-6">
     <h2>Send Notifications</h2>
     <p><small>Notifications will show on buyer pages for one week.</small></p>
     <%= form_for :notification, :url => sendnotif_farm_path(@farm), :html => {:method => :post} do |f| %>
       <p><%= f.text_area :notif %></p>
       <p><%= f.submit "Send"%></p>
     <% end %> 
+</div>
 </div>
 
 

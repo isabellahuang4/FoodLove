@@ -1,10 +1,11 @@
-<h1>Farms Near Me</h1>
-
-<h1>Add A Farm</h1>
+<h1>Add A Farm Near Me</h1>
+<p><%= link_to "Back", edit_user_path(current_user) %></p>
 <ul>
-  <% @farms.sort_by{|f| f.distance_to(@buyer)}each do |f| %>
-    <% if !@buyer.farms.exists?(f.id) %>
-      <li><%= f.name %> <%= link_to "Add", new_farm_buyer_path(@buyer,f), method: :post %></li>
-    <% end %>
+  <% @nearfarms.each do |f| %>
+    <li><%= f.name %>: <%= f.distance_to(current_user).round(2) %> miles, 
+	<%= link_to "Add", new_farm_buyer_path(@buyer,f), method: :post %></li>
+  <% end %>
+  <% if @nearfarms[0] == nil %>
+    <p>There are no other farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
   <% end %>
 </ul>

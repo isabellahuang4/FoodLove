@@ -25,10 +25,7 @@ class FarmsController < ApplicationController
     @user=User.find(params[:id])
     @farm=Farm.find(params[:id])
     @orders=@farm.orders
-    @products = @farm.products.sort_by{|p| [p.quantity>0 ? 0:1,
-                                 p.category.downcase,
-                                 p.name.downcase,
-                                 p.price]}
+    @notifs=@farm.notifications
   end
 
   def create
@@ -51,6 +48,7 @@ class FarmsController < ApplicationController
     if params[:farm][:products_attributes] != nil
       redirect_to farm_products_path(@farm)
     else
+      flash[:notice] = "Account successfully updated!"
       redirect_to edit_farm_path(@farm)
     end
   end
@@ -113,8 +111,7 @@ class FarmsController < ApplicationController
     end
 
     #create notification object
-    puts @farm.notifications.create(notif: params[:notification][:notif]).created_at
-
+    @farm.notifications.create(notif: params[:notification][:notif]).created_at
 
     redirect_to edit_farm_path(@farm)    
   end
@@ -139,16 +136,23 @@ class FarmsController < ApplicationController
     
     header_f = Spreadsheet::Format.new :weight => :bold
     
+    money_f = Spreadsheet::Format.new :number_format => '$#,##0.00',
+    	          		      :align => :left
+
+    sheet.column(3).default_format = money_f
+
     i=0
+    sheet.row(i).push @farm.name, Date.current
+    i+=2
     sheet.row(i).push 'Category', 'Item', 'Unit', 'Price', 'Quantity', 'Description', 'Notes'
     sheet.row(i).default_format = header_f
     i+=1    
 
     @farm.products.sort_by{|p| [p.category, p.name.downcase, p.price]}.each do |product|
       if product.available?
-      	 if product.name != sheet.row(i-1)[0] && sheet.row(i-1)[0] != "Product"
+      	 if product.name != sheet.row(i-1)[0] && sheet.row(i-1)[0] != "Category"
 	   i+=1
-	   end
+	 end
         sheet.row(i).push product.category, product.name, product.unit, product.price, 
 			  product.quantity, product.description, product.notes
 	i+=1
@@ -157,7 +161,6 @@ class FarmsController < ApplicationController
     
     book.write Rails.root.join('print',"#{@farm.name}_#{Date.current}.xls")
     send_file Rails.root.join('print', "#{@farm.name}_#{Date.current}.xls")    
-    
   end
 
   def dismiss_order

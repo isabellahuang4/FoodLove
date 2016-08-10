@@ -1,1 +1,12 @@
 <h1>Add A Distributor</h1>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
+<ul>
+  <% @dists.each do |d| %>
+    <% if !@buyer.distributors.exists?(d.id) %>
+      <li><%= d.name %> <%= link_to "Add", new_dist_buyer_path(@buyer,d), method: :post %></li>
+    <% end %>
+  <% end %>
+</ul>
+</div>
+</div>
