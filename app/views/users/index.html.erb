@@ -1,16 +1,12 @@
-<div class="center jumbotron">
-  <% if flash[:notice] %>
-    <div class="col-xs-12"><%= flash[:notice] %></div>
-  <% end %>
 
+<% if flash[:notice] %>
+  <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
+<% end %>
 
-  <h1>Welcome!</h1>
-  
-  <% if !logged_in? %>
-  <br>
-  <%= link_to "Learn About FoodLove", about_path, class: "btn btn-lg btn-danger"  %><br><br>
-
-  <%= link_to "Sign up now!", new_user_path, class: "btn btn-lg btn-danger" %>
-
-  <% end %>
+<div class=" background-table col-xs-12">
+  <h1 class="cover-heading">Welcome!</h1>
+  <p class="lead">FoodLove: Empowering the local food community, one byte at a time.</p>
+  <% if !logged_in? %><p class="lead"><%= link_to "Log In", login_path %></p><% end %>
 </div>
+
+<div class="row"></div>

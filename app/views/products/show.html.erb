@@ -1,6 +1,9 @@
 <h1><%= @product.name %></h1>
 <h2><%= @farm.name %></h2>
 
+<% if false && current_user == @farm %>
+<p><%= link_to "Edit", edit_farm_product_path(@farm,@product) %></p>
+<% end %>
 
 <div class="col-xs-6 col-xs-offset-3">
 <% if @product.feature %>

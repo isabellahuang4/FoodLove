@@ -1,7 +1,11 @@
 <h1>Sign Up</h1>
 
 <%= form_for :user, url:users_path do |f| %>
-  <p><%= render 'shared/error_messages' %></p>
+  <div class="col-xs-12 danger">
+  <%= render 'shared/error_messages' %>
+  </div>
+<div class="row">
+<div class="col-xs-12">
   <p>
     <%= f.label :type %><br>
     <%= f.select :type, options_for_select(
@@ -34,6 +38,8 @@
     <%= f.submit "Create Account"%>
   </p>
 <% end %>
+</div>
+</div>
 
 <script type="text/javascript">
 $('#usertype').change(function(){

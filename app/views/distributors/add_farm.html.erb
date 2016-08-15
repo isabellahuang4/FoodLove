@@ -1,8 +1,14 @@
 <h1>Add A Farm</h1>
+<p><%= link_to "Back", edit_user_path(current_user) %></p>
 <ul>
+  <% @notblank = false %>
   <% @farms.each do |f| %>
     <% if !@dist.farms.exists?(f.id) %>
+      <% @notblank ||= true %>
       <li><%= f.name %> <%= link_to "Add", new_farm_distributor_path(@dist, f), method: :post %></li>
     <% end %>
   <% end %>
 </ul>
+<% if !@notblank %>
+<p>You have added all available farms.</p>
+<% end %>

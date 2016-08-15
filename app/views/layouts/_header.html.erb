@@ -3,11 +3,11 @@
       <%= link_to "FoodLove", '#', id: "logo" %>
       <nav>
         <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Home", root_url %></li>
           <% if logged_in? %>
             <li><%= link_to "Dashboard", edit_user_path(current_user) %></li>
             <li><%= link_to "Log Out", logout_path, method: :delete %></li>
           <% else %>
+            <li><%= link_to "Home", root_url %></li>
             <li><%= link_to "Log In", login_path %></li>
             <li><%= link_to "Create an Account", new_user_path %></li>
           <% end %>

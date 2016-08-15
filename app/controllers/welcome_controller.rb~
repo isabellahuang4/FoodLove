@@ -1,2 +1,13 @@
 class WelcomeController < ApplicationController
+
+  def about
+  end
+
+  def contact
+  end
+
+  def send_contact
+    UserMailer.contact(params[:message], params[:name], params[:email]).deliver_now
+  end
+
 end

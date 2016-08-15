@@ -45,6 +45,7 @@
 
     <p><%= link_to "View and Edit Products", farm_products_path(@farm) %></p>
     <p><%= link_to "Print Spreadsheet", print_farm_path(@user), method: :post %></p>
+    <p><small>Don't forget to mark products to feature!</small></p>
   </div>
 </div>
 

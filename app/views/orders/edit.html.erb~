@@ -105,6 +105,7 @@
       <li><%= link_to "#{p.name}", farm_product_path(f,p) %></li>
     <% end %>
     <% end %>
+    <li><%= link_to "See More", farm_path(f)%> </li>
   </ul>
   </div>
 <% end %>

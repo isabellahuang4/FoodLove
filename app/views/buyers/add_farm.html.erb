@@ -7,9 +7,9 @@
     <li><%= f.name %>: <%= f.distance_to(current_user).round(2) %> miles, 
 	<%= link_to "Add", new_farm_buyer_path(@buyer,f), method: :post %></li>
   <% end %>
+</ul>
   <% if @nearfarms[0] == nil %>
     <p>There are no other farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
   <% end %>
-</ul>
 </div>
 </div>

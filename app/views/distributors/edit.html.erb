@@ -31,6 +31,15 @@
   <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
     <li><%= link_to "#{farm.name}", farm_path(farm) %> | 
         <%= link_to "Remove", remove_farm_distributor_path(@distributor, farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
+    <% if farm.notifications != nil %>
+        <ul>
+          <% farm.notifications.each do |n| %>
+          <% if DateTime.now.days_ago(7) < n.created_at %>
+             <li><%= n.notif %></li>
+          <% end %>
+          <% end %>
+        </ul>
+    <% end %>
   <% end %>
 </ul>
 

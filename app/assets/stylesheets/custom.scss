@@ -26,6 +26,36 @@ textarea {
   }
 }
 
+.background-hoop {
+  background-image: url(/assets/hoophouse.png);
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-stand {
+  background-image: url(/assets/farmstand.png);
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-gate {
+  background-image: url(/assets/gate.png);
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-bluebs {
+  background-image: url(/assets/bluebs.png);
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-table {
+  background-image: url(/assets/table.png);
+  background-size: cover;
+  padding: 50px;
+}
+
 
 /* typography */
 

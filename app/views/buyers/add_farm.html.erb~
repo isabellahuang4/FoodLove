@@ -1,5 +1,7 @@
 <h1>Add A Farm Near Me</h1>
 <p><%= link_to "Back", edit_user_path(current_user) %></p>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
 <ul>
   <% @nearfarms.each do |f| %>
     <li><%= f.name %>: <%= f.distance_to(current_user).round(2) %> miles, 
@@ -9,3 +11,5 @@
     <p>There are no other farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
   <% end %>
 </ul>
+</div>
+</div>

@@ -1,9 +1,8 @@
 class UserMailer < ApplicationMailer
-  default from: 'notifications@foodlove.com'
+  default from: 'notifications@foodlove.farm'
   
   def welcome_email(user)
     @user = user
-    @url = Rails.root
     mail(to: @user.email, subject: 'Welcome to FoodLove')
   end
 
@@ -33,12 +32,19 @@ class UserMailer < ApplicationMailer
     mail(to: @dist.email, subject: "Order from #{@buyer.name}")
   end
 
-
   def notif(buyer, note, farm)
     @buyer = buyer
     @text = note
     @farm = farm
     mail(to: @buyer.email, subject: "Notification from #{@farm.name}")
+  end
+
+  def contact(message, name, email)
+    @message = message
+    @name = name
+    @email = email
+#    mail(to: "mia@foodlove.farm", subject: "Contact Form from #{@name}")
+    mail(to: "isabella@foodlove.farm", subject: "Contact Form from #{@name}")
   end
 
 end

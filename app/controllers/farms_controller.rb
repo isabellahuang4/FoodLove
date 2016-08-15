@@ -98,22 +98,30 @@ class FarmsController < ApplicationController
 
   def sendnotif
     @farm = Farm.find(params[:id])
-    @buyers = @farm.buyers #find all the buyers
-    @dists = @farm.distributors #find all the distributors
     
     #send email to each buyer and distributor
-    @buyers.each do |b|	
-      UserMailer.notif(b,params[:notification][:notif],@farm).deliver_now
+    Buyer.all.each do |b|	
+      if b.farms.exists?(@farm)
+        UserMailer.notif(b,params[:notification][:notif],@farm).deliver_now
+      end
     end
 
-    @dists.each do |d|
-      UserMailer.notif(d,params[:notification][:notif],@farm).deliver_now
+    Distributor.all.each do |d|
+      if d.farms.exists?(@farm)
+        UserMailer.notif(d,params[:notification][:notif],@farm).deliver_now
+      end
     end
 
     #create notification object
     @farm.notifications.create(notif: params[:notification][:notif]).created_at
 
     redirect_to edit_farm_path(@farm)    
+  end
+
+  def dismiss_notif
+    @farm = Farm.find(params[:id])
+    @farm.notifications.delete(params[:format])
+    redirect_to edit_farm_path(@farm)
   end
 
   def search

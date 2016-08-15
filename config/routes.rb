@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   delete '/logout', to:	'sessions#destroy'
 
   get '/about', to: 'welcome#about'
+  get '/contact', to: 'welcome#contact'
+  post '/contact', to: 'welcome#send_contact'
 
   get "/search", to: 'products#search'
 
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
       match 'products/all' => 'products#update_all', :as => :update_all, :via => :put
     patch 'upload', :on => :member
     post 'sendnotif', :on => :member
+    delete 'dismiss_notif', :on => :member
     delete 'dismiss_order', :on => :member
     post 'print', :on => :member
     post 'sample'
