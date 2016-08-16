@@ -1,6 +1,7 @@
 <h1><%= @product.name %></h1>
-<h2><%= @farm.name %></h2>
-<% if current_user == @farm %>
+<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
+
+<% if false && current_user == @farm %>
 <p><%= link_to "Edit", edit_farm_product_path(@farm,@product) %></p>
 <% end %>
 
@@ -41,3 +42,4 @@
   <% end %>
 
 </table>
+

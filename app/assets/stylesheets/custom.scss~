@@ -27,15 +27,33 @@ textarea {
 }
 
 .background-hoop {
-  background: url(/assets/hoophouse.JPG);
+  background: asset_url('hoophouse.png');
   background-size: cover;
+  padding: 75px;
+}
+
+.background-stand {
+  background: asset_url('farmstand.png');
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-gate {
+  background: asset_url('gate.png');
+  background-size: cover;
+  padding: 75px;
+}
+
+.background-bluebs {
+  background: asset_url('bluebs.png');
+  background-size: cover;
+  padding: 75px;
 }
 
 .background-table {
-  background-image: url(/assets/table.png);
+  background: asset_url('table.png');
   background-size: cover;
   padding: 50px;
-  color: white;
 }
 
 

@@ -92,6 +92,7 @@ class FarmsController < ApplicationController
 			      notes: row[6])
       end
     end
+    send_upload_notif
     redirect_to farm_products_path(@farm)
 
   end
@@ -113,7 +114,7 @@ class FarmsController < ApplicationController
     end
 
     #create notification object
-    @farm.notifications.create(notif: params[:notification][:notif]).created_at
+    @farm.notifications.create(notif: params[:notification][:notif])
 
     redirect_to edit_farm_path(@farm)    
   end
@@ -193,6 +194,10 @@ class FarmsController < ApplicationController
 
     def filtering_params(params)
       params.slice(:name_search, :location_search)
+    end
+
+    def send_upload_notif
+      @farm.notifications.create(notif: "We just uploaded a new availability list.")
     end
 
 end

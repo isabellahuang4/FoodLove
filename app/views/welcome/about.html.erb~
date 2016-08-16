@@ -23,7 +23,7 @@
 <div class="row background-gate">
 <div class="col-xs-8 col-xs-offset-2">
 <h2>We're here to connect and empower the local food community!</h2>
-</p>We seek to support local farmers and create a sustainable, community-driven food culture. Our goal is to facilitate the discovery, connection, and engagement with the community behind our food while inspiring others to do the same.</p>
+<p>We seek to support local farmers and create a sustainable, community-driven food culture. Our goal is to facilitate the discovery, connection, and engagement with the community behind our food while inspiring others to do the same.</p>
 </div>
 </div>
 
@@ -47,7 +47,7 @@
 <div class="row">
 
 <div class="col-xs-2">
-<div class="pull-left"><%= image_tag("mia", size:"147x196") %></div>
+<%= image_tag(asset_url('mia.jpg'), class: "img-responsive") %>
 </div>
 <div class="col-xs-10">
 <h3>Mia Gancayco</h3>
@@ -61,11 +61,11 @@
 
 <div class="col-xs-10">
 <h3>Isabella Huang</h3>
-<p>Isabella can’t stop eating, because – well, who doesn’t love food? So, she wants to make food a healthier relationship for all parties involved – from voracious consumers like herself to the land that provides. While Isabella is not tinkering with the technical aspects of FoodLove, she loves to spend her times outdoors hiking and climbing. Isabella is a Mathematics major at Williams College, class of 2018. </p>
+<p>Isabella can’t stop eating, because – well, who doesn’t love food? So, she wants to make food a healthier relationship for all parties involved – from voracious consumers like herself to the land that provides. While Isabella is not tinkering with the technical aspects of FoodLove, she loves to spend her time outdoors hiking and climbing. Isabella is a Mathematics major at Williams College, class of 2018. </p>
 </div>
 
 <div class="col-xs-2">
-<div class="pull-right"><%= image_tag("isabella", size:"152x182") %></div>
+<%= image_tag(asset_url('isabella.jpg'), class: "img-responsive") %>
 </div>
 
 </div>

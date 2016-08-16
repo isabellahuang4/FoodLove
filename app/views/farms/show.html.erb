@@ -13,7 +13,21 @@
 <p><small>click on category titles to see/hide products</small></p>
 <% @lastcat = nil %>
 <% @lastpro = nil %>
-<% @rowct = 0 %>
+<% @rowct = 1 %>
+
+<div class="row">
+<div class="col-xs-4">
+<h2 class="toggle" id="feat_but"}>~ Featured ~</h2>
+<div id="feat">
+<ul>
+
+<% @farm.products.sort_by{|p| [p.available? ? 0:1, p.feature ? 0:1, p.name]}.each do |p| %>
+  <% if p.feature %>
+  <li><%= link_to "#{p.name}", farm_product_path(@farm, p) %></li>
+  <% else %>
+  <% break %>
+  <% end %>
+<% end %>
 
 <% @farm.products.sort_by{|p| [p.category, p.available? ? 0:1,
                                 p.name, p.price]}.each do |pro| %>
@@ -35,13 +49,11 @@
         <% end %></li>
     <% end %>
   <% else %>
-    <% if @lastcat != nil %>
     </ul>
     </div>
     </div>
     <% if @rowct%3 == 0 %>
     </div>
-    <% end %>
     <% end %>
 
     <% @lastcat = pro.category %>
@@ -83,5 +95,11 @@ $(document).ready(function(){
       $(<%= c %>).toggle();
     });
   <% end %>
+ 
+  $(feat).hide();
+  $(feat_but).click(function(){
+    $(feat).toggle();
+  });
+
 });
 </script>

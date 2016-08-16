@@ -1,14 +1,11 @@
 <h1><%= @product.name %></h1>
-<h2><%= @farm.name %></h2>
+<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
 
 <% if false && current_user == @farm %>
 <p><%= link_to "Edit", edit_farm_product_path(@farm,@product) %></p>
 <% end %>
 
 <div class="col-xs-6 col-xs-offset-3">
-<% if @product.feature %>
-  <h3><center>Featured!</center></h3>
-<% end %>
 <p><strong>Category:</strong> <%= @product.category %></p>
 <p><strong>Description: </strong><%= @product.description %></p>
 <p><strong>Notes This Week: </strong><%= @product.notes %></p>
@@ -42,3 +39,4 @@
   <% end %>
 
 </table>
+

@@ -9,7 +9,8 @@
   <th>Quantity</th>
 </tr>
 <% @tot_p = BigDecimal.new(0) %>
-<% @products.each do |p| %>
+<% @lf = nil %>
+<% @products.sort_by{|p| [p.farm_id, p.name]}.each do |p| %>
   <% if @farm != nil && p.farm_id == @farm.id %>
     <tr>
       <% @quantity = @order.quantities.find_by(product_id: p.id) %>
@@ -19,7 +20,12 @@
       <td><%= @quantity.quant %></td>
     </tr>
   <% elsif @dist != nil %>
+    <% if @lf != p.farm_id %>
+      <tr><td><strong><%= Farm.find(p.farm_id).name %></strong></td></tr>
+      <% @lf = p.farm_id %>
+    <% end %>
     <tr>
+      <% @quantity = @order.quantities.find_by(product_id: p.id) %>
       <td><%= p.name %></td>
       <td><%= p.unit %></td>
       <td><%= number_to_currency(p.price) %></td> <% @tot_p += p.price*@quantity.quant %>
