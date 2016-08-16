@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get '/about', to: 'welcome#about'
   get '/contact', to: 'welcome#contact'
-  post '/send', to: 'welcome#send_contact'
+  post '/contact', to: 'welcome#send_contact'
 
   get "/search", to: 'products#search'
 
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     delete 'dismiss_order', :on => :member
     post 'print', :on => :member
     post 'sample'
+    post, :on => :member, to: 'farms#message'
   end
   resources :distributors do
     post 'printall', :on => :member

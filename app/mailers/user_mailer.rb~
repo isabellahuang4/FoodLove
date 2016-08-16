@@ -43,7 +43,7 @@ class UserMailer < ApplicationMailer
     @message = message
     @name = name
     @email = email
-#    mail(to: "mia@foodlove.farm", subject: "Contact Form from #{@name}")
+    mail(to: "mia@foodlove.farm", subject: "Contact Form from #{@name}")
     mail(to: "isabella@foodlove.farm", subject: "Contact Form from #{@name}")
   end
 

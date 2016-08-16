@@ -4,6 +4,16 @@
 
 <h1><%= @farm.name %></h1>
 <h3><center>Location: <%= @farm.location %></center></h3>
+
+<p class="toggle" id="message_but">Send a Message</p>
+<div id="message">
+<%= form_for :message, :url => message_farm_path(@farm) do |f| %>
+<%= f.hidden_field :user, :value => current_user.id %>
+<p><%= f.text_area :message %></p>
+<p><%= f.submit "Send" %></p>
+<% end %>
+</div>
+
 <% if order_on? %>
   <p><%= link_to "Return to Order Page", edit_buyer_order_path(current_user,current_order) %></p>
 <% else %>
@@ -99,6 +109,11 @@ $(document).ready(function(){
   $(feat).hide();
   $(feat_but).click(function(){
     $(feat).toggle();
+  });
+
+  $(message).hide();
+  $(message_but).click(function(){
+    $(message).toggle();
   });
 
 });

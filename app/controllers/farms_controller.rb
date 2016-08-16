@@ -185,6 +185,13 @@ class FarmsController < ApplicationController
     redirect_to farms_path
   end
 
+  def message
+    @farm = Farm.find(params[:id])
+    UserMailer.message_farm(@farm, User.find(params[:message][:user]), params[:message][:message]).deliver_now
+    flash[:notice]="Your message has been sent."
+    redirect_to farm_path(@farm)
+  end
+
   private
     def farm_params
       params.require(:farm).permit(:id, :name, :email, :password, :password_confirmation, :location, :file,

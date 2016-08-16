@@ -1,8 +1,12 @@
 <h1> Distributor: <%= @distributor.name %> </h1>
 
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
 <h2>Farms We Work With</h2>
 <ul>
 <% @distributor.farms.sort_by{|f| f.name}.each do |f| %>
   <li><%= link_to "#{f.name}", farm_path(f) %></li>
 <% end %>
 </ul>
+</div>
+</div>

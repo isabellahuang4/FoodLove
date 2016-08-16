@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     delete 'dismiss_order', :on => :member
     post 'print', :on => :member
     post 'sample'
+    post 'message', :on => :member
   end
   resources :distributors do
     post 'printall', :on => :member
