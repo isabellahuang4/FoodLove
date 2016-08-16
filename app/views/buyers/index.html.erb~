@@ -1,0 +1,10 @@
+<h1>Buyers</h1>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
+<ul>
+<% @buyers.each do |b| %>
+  <li><%= link_to @buyer.name, buyer_path(@buyer) %></li>
+<% end %>
+</ul>
+</div>
+</div>

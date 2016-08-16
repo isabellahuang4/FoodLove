@@ -1,0 +1,6 @@
+<h1>All Distributors</h1>
+<ul>
+  <% @dists.each do |d| %>
+  <li><%= link_to d.name, distributor_path(d) %></li>
+  <% end %>
+</ul>

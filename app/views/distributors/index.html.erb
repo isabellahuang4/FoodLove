@@ -1,0 +1,10 @@
+<h1>All Distributors</h1>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
+<ul>
+  <% @dists.each do |d| %>
+  <li><%= link_to d.name, distributor_path(d) %></li>
+  <% end %>
+</ul>
+</div>
+</div>

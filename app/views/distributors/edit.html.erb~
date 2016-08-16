@@ -31,10 +31,32 @@
   <% @farms.sort_by{|f| [f.name.downcase]}.each do |farm| %>
     <li><%= link_to "#{farm.name}", farm_path(farm) %> | 
         <%= link_to "Remove", remove_farm_distributor_path(@distributor, farm), method: :delete, data: {confirm: "Are you sure?"} %></li>
+    <% if farm.notifications != nil %>
+        <ul>
+          <% farm.notifications.each do |n| %>
+          <% if DateTime.now.days_ago(7) < n.created_at %>
+             <li><%= n.notif %></li>
+          <% end %>
+          <% end %>
+        </ul>
+    <% end %>
   <% end %>
 </ul>
 
 <p><%= link_to "Add A Farm", add_farm_distributor_path(@distributor), method: :get %></p>
+</div>
+</div>
+
+<div class="row">
+<div class="col-xs-6">
+  <h2>All Buyers</h2>
+  <% @buyers = Buyer.all.sort_by{|b| b.name} %>
+  <ul>
+    <% @buyers.each do |b| %>
+    <li><%= link_to b.name, buyer_path(b) %></li>
+    <% end %>
+  </ul>
+
 </div>
 </div>
 

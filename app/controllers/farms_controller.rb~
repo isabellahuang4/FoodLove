@@ -187,10 +187,10 @@ class FarmsController < ApplicationController
 
   def message
     @farm = Farm.find(params[:id])
-    UserMailer.message_farm(@farm, params[:message][:user], params[:message][:message]).deliver_now
+    UserMailer.message(@farm, User.find(params[:message][:user]), params[:message][:message]).deliver_now
     flash[:notice]="Your message has been sent."
+    redirect_to farm_path(@farm)
   end
-
 
   private
     def farm_params

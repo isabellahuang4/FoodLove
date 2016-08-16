@@ -47,6 +47,18 @@
 </div>
 </div>
 
+<div class="row">
+<div class="col-xs-6">
+  <h2>All Buyers</h2>
+  <ul>
+    <% @buyers.each do |b| %>
+    <li><%= link_to b.name, buyer_path(b) %></li>
+    <% end %>
+  </ul>
+
+</div>
+</div>
+
 <script>
 $(document).ready(function(){
     $(edit).hide();

@@ -1,7 +1,7 @@
 class DistributorsController < ApplicationController
 
   def index
-    @distributor=Distributor.all
+    @dists=Distributor.all.sort_by{|d| d.name}
   end
   
   def show
@@ -16,6 +16,7 @@ class DistributorsController < ApplicationController
     @distributor=Distributor.find(params[:id])
     @farms=@distributor.farms
     @orders=@distributor.orders
+    @buyers = Buyer.all.sort_by{|b| b.name}
   end
     
   def create
@@ -95,6 +96,13 @@ class DistributorsController < ApplicationController
     @order = @dist.orders.find(params[:format])
     @dist.orders.delete(@order)
     redirect_to edit_distributor_path(@dist)
+  end
+
+  def message
+    @dist = Distributor.find(params[:id])
+    UserMailer.message_send(@dist, User.find(params[:message][:user]), params[:message][:message]).deliver_now
+    flash[:notice]="Your message has been set."
+    redirect_to distributor_path(@dist)
   end
 
 end

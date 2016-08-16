@@ -1,5 +1,5 @@
 <h1><%= @order.name %></h1>
-<h2><%= @buyer.name %></h2>
+<h2><%= link_to @buyer.name, buyer_path(@buyer) %></h2>
 
 <table class="table">
 <tr>

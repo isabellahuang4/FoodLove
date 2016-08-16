@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     post 'new_farm', :on => :member
     delete 'remove_farm', :on => :member
     delete 'dismiss_order', :on => :member
+    post 'message', :on => :member
   end
   resources :buyers do
     get 'add_farm', :on => :member
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
     post 'new_dist', :on => :member
     delete 'remove_dist', :on => :member
     post 'add_prod', :on => :member
+    post 'message', :on => :member
     resources :orders do
       get 'login_order', to: 'sessions#order_start'
       get 'logout_order', to: 'sessions#order_end'

@@ -1,7 +1,7 @@
 class BuyersController < ApplicationController
 
   def index
-    @buyers=Buyer.all
+    @buyers=Buyer.all.sort_by{|b| b.name}
   end
 
   def show
@@ -94,6 +94,13 @@ class BuyersController < ApplicationController
     @buyer = Buyer.find(params[:id])
     @buyer.distributors.delete(Distributor.find(params[:format]))
     redirect_to edit_buyer_path(@buyer)
+  end
+
+  def message
+    @buyer = Buyer.find(params[:id])
+    UserMailer.message_send(@buyer, User.find(params[:message][:user]), params[:message][:message]).deliver_now
+    flash[:notice]="Your message has been sent."
+    redirect_to buyer_path(@buyer)
   end
 
 end

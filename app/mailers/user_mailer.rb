@@ -47,11 +47,11 @@ class UserMailer < ApplicationMailer
     mail(to: "isabella@foodlove.farm", subject: "Contact Form from #{@name}")
   end
 
-  def message_farm(to, from, message)
-    @farm=to
-    @from=from
-    @message=message
-    mail(to: @farm.email, subject: "Message from #{@from.name}")
+  def message_send(to, from, message)
+    @to = to
+    @from = from
+    @message = message
+    mail(to: @to.email, subject: "Message from #{@from.name}")
   end
 
 end
