@@ -39,6 +39,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       UserMailer.welcome_email(@user).deliver_now
+      UserMailer.new_user(@user).deliver_now
       redirect_to edit_user_path(@user)
     else
       render 'new'

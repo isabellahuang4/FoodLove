@@ -43,8 +43,7 @@ class UserMailer < ApplicationMailer
     @message = message
     @name = name
     @email = email
-    mail(to: "mia@foodlove.farm", subject: "Contact Form from #{@name}")
-    mail(to: "isabella@foodlove.farm", subject: "Contact Form from #{@name}")
+    mail(to: ["mia@foodlove.farm", "isabella@foodlove.farm"],  subject: "Contact Form from #{@name}")
   end
 
   def message_send(to, from, message)
@@ -52,6 +51,11 @@ class UserMailer < ApplicationMailer
     @from = from
     @message = message
     mail(to: @to.email, subject: "Message from #{@from.name}")
+  end
+
+  def new_user(user)
+    @user = user
+    mail(to: ["mia@foodlove.farm", "isabella@foodlove.farm"], subject: "New User Sign-Up")
   end
 
 end

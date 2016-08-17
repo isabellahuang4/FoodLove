@@ -1,0 +1,7 @@
+New User Sign-Up
+Name: <%= @user.name %>
+Email: <%= @user.email %>
+Type: <%= @user.type %>
+<% if @user.location != nil %>
+  Location: <%= @user.location %>
+<% end %>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <p>New User Sign-Up</p>
+  <p>Name: <%= @user.name %></p>
+  <p>Email: <%= @user.email %></p>
+  <% if @user.location != nil %>
+  <p>Location: <%= @user.location %></p>
+  <% end %>			
+</body>
+</html>
+

@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
   def index
-
   end
 
   def new
@@ -39,7 +38,6 @@ class UsersController < ApplicationController
     end 
     if @user.save
       log_in @user
-      flash[:notice]="Welcome!"
       UserMailer.welcome_email(@user).deliver_now
       redirect_to edit_user_path(@user)
     else
