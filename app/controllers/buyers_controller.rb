@@ -51,7 +51,14 @@ class BuyersController < ApplicationController
     @buyer = Buyer.find(params[:id])
     @order = Order.find_by(name: params[:order][:order])
     @pro = Product.find(params[:format])
-    @order.products.push(@pro)
+    if !@order.products.exists?(@pro.id)
+      @order.products << @pro
+      @quantity = @order.quantities.find_by(product_id: @pro.id)
+      @quantity.quant = 1
+      @quantity.save
+    else 
+      flash[:notice]="This product is already in your order!"
+    end
 
     redirect_to edit_buyer_order_path(@buyer, @order)
   end

@@ -5,6 +5,8 @@ class Order < ActiveRecord::Base
   has_and_belongs_to_many :farms
   has_and_belongs_to_many :distributors
 
+  accepts_nested_attributes_for :quantities
+
   def to_s
     self.name
   end
@@ -12,7 +14,7 @@ class Order < ActiveRecord::Base
   def total_price
     @p = BigDecimal.new(0)
     products.each do |pro|
-#      @quant = quantities.find_by(product_id: pro.id).quant
+      @quant = quantities.find_by(product_id: pro.id).quant
 #      @quant_p = pro.price*@quant
 #      @p = @p+@quant_p
     end
