@@ -1,3 +1,7 @@
+<% content_for :title do %>
+<%= @buyer.name %>
+<% end %>
+
 <% if flash[:notice] %>
     <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
 <% end %>
@@ -6,10 +10,12 @@
 <h3><center>Location: <%= @buyer.location %></center></h3>
 
 <h2>Send a Message</h2>
+<div class="row">
 <div class="col-xs-6 col-xs-offset-3">
 <%= form_for :message, :url => message_buyer_path(@buyer) do |f| %>
 <%= f.hidden_field :user, :value => current_user.id %>
 <p><%= f.text_area :message %></p>
 <p><%= f.submit "Send" %></p>
 <% end %>
+</div>
 </div>

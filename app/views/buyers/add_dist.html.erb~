@@ -1,12 +1,22 @@
+<% content_for :title do %>
+Add a Distributor
+<% end %>
+
 <h1>Add A Distributor</h1>
+<p><%= link_to "Back", edit_user_path(current_user) %></p>
 <div class="row">
 <div class="col-xs-6 col-xs-offset-3">
 <ul>
+  <% @notblank = false %>
   <% @dists.each do |d| %>
     <% if !@buyer.distributors.exists?(d.id) %>
       <li><%= d.name %> <%= link_to "Add", new_dist_buyer_path(@buyer,d), method: :post %></li>
+      <% @notblank ||= true %> 
     <% end %>
   <% end %>
 </ul>
+<% if !@notblank %>
+<p>There are no more available distributors.</p>
+<% end %>
 </div>
 </div>

@@ -6,9 +6,6 @@
 <% end %>
 
 <div class="col-xs-6 col-xs-offset-3">
-<% if @product.feature %>
-  <h3><center>Featured!</center></h3>
-<% end %>
 <p><strong>Category:</strong> <%= @product.category %></p>
 <p><strong>Description: </strong><%= @product.description %></p>
 <p><strong>Notes This Week: </strong><%= @product.notes %></p>

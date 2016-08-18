@@ -1,3 +1,7 @@
+<% content_for :title do %>
+Add a Farm
+<% end %>
+
 <h1>Add A Farm Near Me</h1>
 <p><%= link_to "Back", edit_user_path(current_user) %></p>
 <div class="row">
@@ -9,7 +13,7 @@
   <% end %>
 </ul>
   <% if @nearfarms[0] == nil %>
-    <p>There are no other farms within a 50 mile radius of your location: <%= @buyer.location %>.</p>
+    <p>There are no other farms within a 100 mile radius of your location: <%= @buyer.location %>.</p>
   <% end %>
 </div>
 </div>

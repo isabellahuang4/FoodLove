@@ -1,4 +1,4 @@
-<h1>Edit Order: <%= @order.name %></h1>
+<h1><% if order_on? %>Edit: <% end %><%= @order.name %></h1>
 <p><%= link_to "Back", edit_buyer_path(current_user) %></p>
 
 <div class="row">

@@ -1,5 +1,5 @@
 <h1>Contact Us</h1>
-<%= form_for contact_path do |f| %>
+<%= form_for :contact do |f| %>
 <p><%= f.label :name %> <%= f.text_field :name %></p>
 <p><%= f.label :email %> <%= f.text_field :email %></p>
 <p><%= f.label :message %> <%= f.text_area :message %></p>

@@ -1,3 +1,7 @@
+<% content_for :title do %>
+Dashboard
+<% end %>
+
   <% if flash[:notice] %>
     <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
   <% end %>
@@ -32,7 +36,7 @@
       <% end %>
     </ul>
     <% if @notblank %>
-      <p><%= link_to "Compile Orders", compile_orders_farm_path(@farm) %></p> 
+      <p><%= link_to "Compile Orders", compile_orders_farm_path(@farm), method: :post %></p> 
     <% else %>
       <p>No orders have been placed this week.</p>
     <% end %>

@@ -1,3 +1,7 @@
+<% content_for :title do %>
+<%= @farm.name %> Products | FoodLove
+<% end %>
+
 <h1>Products</h1>
 <p><%= link_to "Back", edit_farm_path(@farm) %>
 <p><%= link_to "Add a Product", new_farm_product_path(@farm) %></p>

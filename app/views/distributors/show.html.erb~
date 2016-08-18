@@ -1,4 +1,21 @@
+<% content_for :title do %>
+<%= @distributor.name %>
+<% end %>
+
+  <% if flash[:notice] %>
+    <div class="col-xs-12"><p><%= flash[:notice] %></p></div>
+  <% end %>
+
 <h1><%= @distributor.name %> </h1>
+
+<p class="toggle" id="message_but">Send a Message</p>
+<div id="message">
+<%= form_for :message, :url => message_distributor_path(@distributor) do |f| %>
+<%= f.hidden_field :user, :value => current_user.id %>
+<p><%= f.text_area :message %></p>
+<p><%= f.submit "Send" %></p>
+<% end %>
+</div>
 
 <div class="row">
 <div class="col-xs-6 col-xs-offset-3">
@@ -10,3 +27,13 @@
 </ul>
 </div>
 </div>
+
+
+<script>
+$(document).ready(function(){
+  $(message).hide();
+  $(message_but).click(function(){
+  $(message).toggle();
+  });
+});
+</script>

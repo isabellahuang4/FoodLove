@@ -1,4 +1,4 @@
-<h1>Search Results</h1>
+<h1>Farm Search Results</h1>
 <p><%= link_to "Back", edit_user_path(current_user) %></p>
 
 <% if @farms==[] %>

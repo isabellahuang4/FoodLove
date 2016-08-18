@@ -1,3 +1,7 @@
+<% content_for :title do %>
+<%= @order.name %> | FoodLove
+<% end %>
+
 <h1><%= @order.name %></h1>
 <h2><%= link_to @buyer.name, buyer_path(@buyer) %></h2>
 

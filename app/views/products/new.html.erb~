@@ -1,4 +1,6 @@
 <h1>Add a Product</h1>
+<p><%= link_to "Back", farm_products_path(@farm) %></p>
+
   <%= form_for([@farm, @farm.products.build]) do |f| %>
     <p><%= f.label :name %> <%= f.text_field :name %></p>
     <p><%= f.label :unit %> <%= f.text_field :unit %></p>
