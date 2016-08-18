@@ -51,7 +51,7 @@ class BuyersController < ApplicationController
     @buyer = Buyer.find(params[:id])
     @order = Order.find_by(name: params[:order][:order])
     @pro = Product.find(params[:format])
-    if !order.products.exists(@pro.id)
+    if !@order.products.exists?(@pro.id)
       @order.products << @pro
       @quantity = @order.quantities.find_by(product_id: @pro.id)
       @quantity.quant = 1

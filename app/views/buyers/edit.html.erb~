@@ -67,7 +67,7 @@
         <ul>
 	  <% farm.notifications.each do |n| %>
 	  <% if DateTime.now.days_ago(7) < n.created_at %>
-	     <li><%= n.notif %></li>
+	     <li><%= n.created_at.localtime.strftime("%b-%d %I:%M %p") %>: <%= n.notif %></li>
 	  <% end %>
 	  <% end %>
 	</ul>

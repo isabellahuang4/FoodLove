@@ -7,9 +7,9 @@
 <p class="toggle" id="edit_but">Edit Account</p>
 <div id="edit">
 <%= form_for @buyer do |f| %>
-  <p><%= f.label :name %><%= f.text_field :name %></p>
-  <p><%= f.label :email %><%= f.text_field :email %></p>
-  <p><%= f.label :location %><%= f.text_field :location %></p>
+  <p><%= f.label :name %> <%= f.text_field :name %></p>
+  <p><%= f.label :email %> <%= f.text_field :email %></p>
+  <p><%= f.label :location %> <%= f.text_field :location %></p>
   <p><%= f.submit %></p>
 <% end %>
 <p><%= link_to "Delete Account", user_path(@buyer), method: :delete, data: {confirm: "Are you sure?"} %></p>

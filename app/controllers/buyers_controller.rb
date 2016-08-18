@@ -67,7 +67,7 @@ class BuyersController < ApplicationController
     @buyer = Buyer.find(params[:id])
     @nearfarms = Array.new
     Farm.all.each do |f|
-      if f.distance_to(@buyer) < 50 && !@buyer.farms.exists?(f.id)
+      if f.distance_to(@buyer) < 100 && !@buyer.farms.exists?(f.id)
         @nearfarms.push f
       end
     end

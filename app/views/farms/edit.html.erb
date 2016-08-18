@@ -31,9 +31,12 @@
       <% end %>
       <% end %>
     </ul>
-    <% if !@notblank %>
+    <% if @notblank %>
+      <p><%= link_to "Compile Orders", compile_orders_farm_path(@farm), method: :post %></p> 
+    <% else %>
       <p>No orders have been placed this week.</p>
     <% end %>
+
   </div>
 
   <div class="col-xs-6">

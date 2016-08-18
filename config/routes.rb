@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     post 'print', :on => :member
     post 'sample'
     post 'message', :on => :member
+    post 'compile_orders', :on => :member
   end
   resources :distributors do
     post 'printall', :on => :member
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
     delete 'remove_farm', :on => :member
     delete 'dismiss_order', :on => :member
     post 'message', :on => :member
+    post 'compile_orders', :on => :member
   end
   resources :buyers do
     get 'add_farm', :on => :member

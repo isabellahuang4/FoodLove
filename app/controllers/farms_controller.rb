@@ -192,6 +192,37 @@ class FarmsController < ApplicationController
     redirect_to farm_path(@farm)
   end
 
+  def compile_orders
+    @farm = Farm.find(params[:id])
+    @orders = @farm.orders
+
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    i=0
+
+    bold_f = Spreadsheet::Format.new :weight => :bold
+    
+    #header
+    sheet.row(i).push 'Compiled Orders', "#{Date.current}"
+    sheet.row(i).default_format=bold_f
+    sheet.row(i+2).push 'Buyer', 'Product', 'Unit', 'Quantity'
+    sheet.row(i+2).default_format=bold_f
+    i+=3
+
+    #print each order
+    @orders.each do |o|
+      if o.buyer_id != nil && o.placed != nil && DateTime.now.days_ago(7) < o.placed
+        o.products.each do |p|
+          sheet.row(i).push Buyer.find(o.buyer_id).name, p.name, p.unit, o.quantities.find_by(product_id: p.id).quant
+	  i+=1
+        end
+      end
+    end
+
+    book.write Rails.root.join('print', "#{@farm.name}_orders_#{Date.current}.xls")
+    send_file Rails.root.join('print', "#{@farm.name}_orders_#{Date.current}.xls")
+  end
+
   private
     def farm_params
       params.require(:farm).permit(:id, :name, :email, :password, :password_confirmation, :location, :file,

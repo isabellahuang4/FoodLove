@@ -3,8 +3,8 @@
 <p class="toggle" id="edit_but">Edit Account</p>
 <div id="edit">
 <%= form_for @distributor do |f| %>
-  <p><%= f.label :name %><%= f.text_field :name %></p>
-  <p><%= f.label :email %><%= f.text_field :email %></p>
+  <p><%= f.label :name %> <%= f.text_field :name %></p>
+  <p><%= f.label :email %> <%= f.text_field :email %></p>
   <p><%= f.submit %></p>
 <% end %>
 <p><%= link_to "Delete Account", user_path(@distributor), method: :delete, data: {confirm: "Are you sure?"} %></p>
@@ -14,13 +14,22 @@
 <div class="col-xs-6">
 <h2>Orders</h2>
 <ul>
+  <% @notblank = false %>
   <% @orders.each do |o| %>
+    <% if o.placed != nil && o.buyer_id != nil %>
     <% if DateTime.now.days_ago(7) < o.placed %>
+        <% @notblank ||= true %>
        <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %>
            <%= link_to "Dismiss", dismiss_order_distributor_path(@distributor, o), method: :delete, data: {confirm: "Are you sure?"} %></li>
     <% end %>
+    <% end %>
   <% end %>
 </ul>
+<% if @notblank %>
+  <p><%= link_to "Compile Orders", compile_orders_distributor_path(@distributor), method: :post %></p>
+<% else %>
+  <p>No orders have been placed this week.</p>
+<% end %>
 </div>
 
 <div class="col-xs-6">

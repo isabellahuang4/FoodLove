@@ -3,8 +3,8 @@
 <p class="toggle" id="edit_but">Edit Account</p>
 <div id="edit">
 <%= form_for @distributor do |f| %>
-  <p><%= f.label :name %><%= f.text_field :name %></p>
-  <p><%= f.label :email %><%= f.text_field :email %></p>
+  <p><%= f.label :name %> <%= f.text_field :name %></p>
+  <p><%= f.label :email %> <%= f.text_field :email %></p>
   <p><%= f.submit %></p>
 <% end %>
 <p><%= link_to "Delete Account", user_path(@distributor), method: :delete, data: {confirm: "Are you sure?"} %></p>
@@ -15,9 +15,11 @@
 <h2>Orders</h2>
 <ul>
   <% @orders.each do |o| %>
+    <% if o.placed != nil && o.buyer_id != nil %>
     <% if DateTime.now.days_ago(7) < o.placed %>
        <li><%= link_to "#{o.name}", buyer_order_path(o.buyer_id, o) %> From <%= Buyer.find(o.buyer_id).name %>
            <%= link_to "Dismiss", dismiss_order_distributor_path(@distributor, o), method: :delete, data: {confirm: "Are you sure?"} %></li>
+    <% end %>
     <% end %>
   <% end %>
 </ul>
@@ -50,7 +52,6 @@
 <div class="row">
 <div class="col-xs-6">
   <h2>All Buyers</h2>
-  <% @buyers = Buyer.all.sort_by{|b| b.name} %>
   <ul>
     <% @buyers.each do |b| %>
     <li><%= link_to b.name, buyer_path(b) %></li>

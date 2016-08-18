@@ -31,9 +31,12 @@
       <% end %>
       <% end %>
     </ul>
-    <% if !@notblank %>
+    <% if @notblank %>
+      <p><%= link_to "Compile Orders", compile_orders_farm_path(@farm) %></p> 
+    <% else %>
       <p>No orders have been placed this week.</p>
     <% end %>
+
   </div>
 
   <div class="col-xs-6">
@@ -81,8 +84,16 @@
 </div>
 
 <div class="row">
+<br><br>
+</div>
+
+<div class="row">
 <div class="col-xs-6">
-  <h2><%= link_to "All Buyers", buyers_path %></h2>
+  <p><%= link_to "See All Buyers", buyers_path %></p>
+</div>
+
+<div class="col-xs-6">
+  <p><%= link_to "See All Distributors", distributors_path %></p>
 </div>
 
 </div>
