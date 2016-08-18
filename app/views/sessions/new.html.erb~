@@ -9,11 +9,11 @@
 <p>Don't have an account? <%= link_to "Create one!", new_user_path %> </p>
 <%= form_for(:session, url: login_path) do |f| %>
   <p>
-    <%= f.label :email %> <br>
+    <%= f.label :email %>
     <%= f.email_field :email %>
   </p>
   <p>
-    <%= f.label :password %><br>
+    <%= f.label :password %>
     <%= f.password_field :password %>
   </p>
   <p>

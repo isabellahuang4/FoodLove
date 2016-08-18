@@ -3,10 +3,11 @@
 <% end %>
 
 <h1><%= @product.name %></h1>
-<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
 
-<% if false && current_user == @farm %>
+<% if current_user == @farm %>
 <p><%= link_to "Edit", edit_farm_product_path(@farm,@product) %></p>
+<% else %>
+<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
 <% end %>
 
 <div class="col-xs-6 col-xs-offset-3">
@@ -25,8 +26,7 @@
     <% end %>
   </tr>
 
-  <% @farm.products.each do |p| %>
-    <% if p.name == @product.name %>
+  <% @pros.each do |p| %>
     <tr>
       <td><%= p.unit%></td>
       <td><%= number_to_currency(p.price) %></td>
@@ -39,7 +39,6 @@
 	<% end %>
       <% end %>
     </tr>
-    <% end %>
   <% end %>
 
 </table>

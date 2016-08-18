@@ -61,8 +61,15 @@ class ProductsController < ApplicationController
   def show
     @farm = Farm.find(params[:farm_id])
     @product = @farm.products.find(params[:id])
-
+    @pros = @farm.products.where(name: @product.name).sort_by{|p| p.price}
   end
+
+  def edit
+    @farm = Farm.find(params[:farm_id])
+    @pro = @farm.products.find(params[:id])
+    @pros = @farm.products.where(name: @pro.name).sort_by{|p| p.price}
+  end
+
 
   private
     def product_params

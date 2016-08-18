@@ -1,0 +1,38 @@
+<% content_for :title do %>
+Edit | <%= @pro.name %> | FoodLove
+<% end %>
+
+<h1><%= @pro.name %></h1>
+<p><%= link_to "Back", farm_product_path(@farm, @pro) %></p>
+
+<%= form_for @pro, url: farm_product_path(@farm, @pro) do |f| %>
+<div class="row">
+<div class="col-xs-6 col-xs-offset-3">
+<p><strong>Category:</strong> <%= f.text_field :category %></p>
+<p><strong>Description: </strong><%= f.text_area :description %></p>
+<p><strong>Notes This Week: </strong><%= f.text_area :notes %></p>
+<p><%= f.submit "Update Description" %></p>
+</div>
+<% end %>
+</div>
+
+<table class="table">
+  <tr>
+    <th>Unit</th>
+    <th>Price</th>
+    <th>Available Quantity</th>
+    <th>Update</th>
+  </tr>
+
+  <% @pros.each do |p| %>
+    <%= form_for p, url: farm_product_path(@farm, p) do |f| %>
+    <tr>
+      <td><%= f.text_field :unit%></td>
+      <td><%= f.text_field :price, data: {role: 'money', a_sep: ',', a_dec: '.'} %></td>
+      <td><%= f.text_field :quantity %></td>
+      <td><%= f.submit %></td>
+    </tr>
+    <% end %>
+  <% end %>
+
+</table>

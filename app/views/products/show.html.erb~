@@ -1,8 +1,13 @@
-<h1><%= @product.name %></h1>
-<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
+<% content_for :title do %>
+<%= @product.name %> | <%= @farm.name %> | FoodLove
+<% end %>
 
-<% if false && current_user == @farm %>
+<h1><%= @product.name %></h1>
+
+<% if current_user == @farm %>
 <p><%= link_to "Edit", edit_farm_product_path(@farm,@product) %></p>
+<% else %>
+<h2><%= link_to @farm.name, farm_path(@farm) %></h2>
 <% end %>
 
 <div class="col-xs-6 col-xs-offset-3">

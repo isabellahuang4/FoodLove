@@ -16,7 +16,7 @@ class ProductsController < ApplicationController
     filtering_params(params).each do |key, value|
       @products = @products.public_send(key, value) if value.present?
     end
-    @products=@products.sort_by{|p| [Farm.find(p.farm_id).name ,p.name]}
+    @products=@products.sort_by{|p| [Farm.find(p.farm_id).distance_to(current_user) ,p.name]}
   end
 
   def new
@@ -63,6 +63,13 @@ class ProductsController < ApplicationController
     @product = @farm.products.find(params[:id])
 
   end
+
+  def edit
+    @farm = Farm.find(params[:farm_id])
+    @pro = @farm.products.find(params[:id])
+    @pros = @farm.products.where(name: @pro.name)
+  end
+
 
   private
     def product_params
